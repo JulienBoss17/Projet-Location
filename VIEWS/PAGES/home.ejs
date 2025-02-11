@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style> 
+        li {
+            list-style-type: none;
+        }
+        #year li {
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        #year {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        div{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        section{
+            display: flex;
+            justify-content: space-around;
+            text-align: center  ;
+        }
+    </style>
+    <%- include('../PARTIALS/navbar') %>
+<section>
+    <%- include('../PARTIALS/year') %>
+    <%- include('../PARTIALS/summer') %>
+</section>
+<%- include('../PARTIALS/footer') %>
+</body>
+</html>

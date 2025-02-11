@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show User</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('../PARTIALS/navbar') %>
+    <div class="container">
+        <p><strong>Status : </strong>
+            <% if (chambre.disponibilite == true) { %>
+                <span style="color: green;">Disponible</span>
+            <% } else { %>
+                <span style="color: red;">Non disponible</span>
+            <% } %>
+        </p>
+        <p><strong><%= chambre.nom %> situé au <%= chambre.position %></strong></p>
+        <% if (chambre.nom == "Chambre 4") { %>
+            <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
+        <% } else if (chambre.nom == "Chambre 10") { %>
+            <img src="/images/chambre10.jpeg" alt="Chambre 10" width="300px" height="auto">
+        <% } else if (chambre.nom == "Chambre 14") { %>
+            <img src="/images/chambre14.jpeg" alt="Chambre 14" width="300px" height="auto">
+        <% } else if (chambre.nom == "Chambre 15") { %>
+            <img src="/images/chambre15.jpeg" alt="Chambre 15" width="300px" height="auto">
+        <% } %>
+        <div class="container">
+            <p><strong>Confort :</strong></p>
+            <p>Volets : <%= chambre.volets %></p>
+            <p>Radiateur : <%= chambre.radiateur %></p>
+            <p>Prises éléctriques : <%= chambre.prises_electriques %></p>
+            <p>Multi prise :<%= chambre.multi_prises%></p>
+            <p>Bureau : <%= chambre.bureau %></p>
+            <p>Chaise : <%= chambre.chaise %></p>
+            <p>Lit : <%= chambre.lit %></p>
+            <p>Dressing : <%= chambre.dressing %></p>
+            <p>Oreiller : <%= chambre.oreiller %></p>
+            <p>Plaid : <%= chambre.plaid %></p>
+        </div>
+        <div class="container">
+            <% if(user) { %>
+                <a href="#">Je dépose mon dossier</a>
+            <% } else { %>
+                <a href="/compte">Je dépose mon dossier</a>
+            <% } %>
+        </div>
+
+    </div>
+</body>
+</html>

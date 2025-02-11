@@ -1,0 +1,39 @@
+<ul id="year">
+    <h2>Réservation à l'année :</h2>
+    <h3>Disponibilité des chambres :</h3>
+    <% chdispo.forEach(chambre => { %>
+        <li>
+            <a href="/show/<%= chambre._id %>">
+            <% if (chambre.nom == "Chambre 4") { %>
+                <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
+            <% } else if (chambre.nom == "Chambre 10") { %>
+                <img src="/images/chambre10.jpeg" alt="Chambre 10" width="300px" height="auto">
+            <% } else if (chambre.nom == "Chambre 14") { %>
+                <img src="/images/chambre14.jpeg" alt="Chambre 14" width="300px" height="auto">
+            <% } else if (chambre.nom == "Chambre 15") { %>
+                <img src="/images/chambre15.jpeg" alt="Chambre 15" width="300px" height="auto">
+            <% } %>
+            <div>
+                <%= chambre.nom %></a>
+                <h3>Disponible</h3>
+            </div>
+        </li>
+    <% }) %>
+    <% chindispo.forEach(chambre => { %>
+        <li>
+            <% if (chambre.nom == "Chambre 4") { %>
+                <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
+            <% } else if (chambre.nom == "Chambre 10") { %>
+                <img src="/images/chambre10.jpeg" alt="Chambre 10" width="300px" height="auto">
+            <% } else if (chambre.nom == "Chambre 14") { %>
+                <img src="/images/chambre14.jpeg" alt="Chambre 14" width="300px" height="auto">
+            <% } else if (chambre.nom == "Chambre 15") { %>
+                <img src="/images/chambre15.jpeg" alt="Chambre 15" width="300px" height="auto">
+            <% } %>
+            <div>
+                <h2><%= chambre.nom %></h2>
+                <h3>status : Indisponible</h3>
+            </div>
+        </li>
+    <% }) %>
+</ul>

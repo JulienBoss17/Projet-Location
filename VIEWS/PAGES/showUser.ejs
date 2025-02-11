@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show User</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('../PARTIALS/navbar') %>
+    <div class="container">
+        <p><strong>ID:</strong> <%= user._id %></p>
+        <p><strong><%= user.nom %> <%= user.prenom %></strong></p>
+        <p><strong>Tu es : </strong><%= user.role %></p>
+        <p><strong>Status : </strong><%= user.status %></p>
+        <div class="container">
+            <a href="/edituser/<%= user._id %>">Edit</a>
+            <a href="/deleteuser/<%= user._id %>">Delete</a>
+            <a href="/">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

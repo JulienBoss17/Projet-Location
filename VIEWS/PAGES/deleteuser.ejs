@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete User</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('../PARTIALS/navbar') %>
+    <div class="container">
+        <h1>Supprimmer son compte</h1>
+        <p>Voulez vous vraiment supprimer votre compte?</p>
+        <p><strong>Name:</strong> <%= user.nom %></p>
+        <form action="/deleteuser/<%= user._id %>?_method=DELETE" method="POST">
+            <button type="submit">Yes, Delete</button>
+        </form>
+        <a href="/compte">Cancel</a>
+    </div>
+</body>
+</html>
