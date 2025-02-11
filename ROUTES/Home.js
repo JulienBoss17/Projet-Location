@@ -34,8 +34,8 @@ router.put("/edituser/:id", homeController.updateUsers)
 // voir une chambre par id
 router.get("/show/:id", homeController.showChambres)
 
-router.get("/dashboardadmin", verifyToken, homeController.dashAdmin)
+router.get("/dashboardadmin", verifyToken("admin"), homeController.dashAdmin)
 
-router.get("/dashboardlocataire", verifyToken, homeController.dashLocataire)
+router.get("/dashboardlocataire", verifyToken("locataire"), homeController.dashLocataire)
 
 module.exports = router;
