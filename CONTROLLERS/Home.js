@@ -3,7 +3,8 @@ const User = require("../MODELS/Users.js");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
-const generateToken = require("../DATABASE/generatetoken.js");
+const generateToken = require("../MIDDLEWARES/generatetoken.js");
+const e = require("express");
 
 exports.home = async (req, res) => {
     try {
@@ -176,3 +177,15 @@ exports.dashLocataire = async (req, res) => {
     console.log("dashLocataire")
     res.render("pages/dashboardLocataire");
 };
+
+
+// // Cookies
+// exports.setCookie = async (req, res) => {
+//     res.cookie('cookieName', 'testdddd', { maxAge: 3000, httpOnly: true });
+//     res.send('Cookie créé');
+// }
+
+// exports.getCookie = async (req, res) => {
+//     const cookieValue = req.cookies.cookieName;
+//     res.send('Valeur du cookie: ' + cookieValue);
+// }

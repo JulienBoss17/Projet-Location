@@ -1,5 +1,6 @@
 // packages
 const express = require("express")
+const cookieParser = require('cookie-parser')
 const app = express()
 const ejs = require("ejs")
 const dotenv = require("dotenv").config();
@@ -13,17 +14,19 @@ const jwt = require('jsonwebtoken');
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use(session({
-    secret: 'votre_secret_unique', 
+    secret: process.env.SECRETSESSION, 
     resave: false,  
     saveUninitialized: false,  
     cookie: { 
         // maxAge: 1*60*1000,  
         secure: false  
-    }
+    },
+    MONGODB_URI: process.env.MONGODB_URI
 }));
 
 
 // app.use
+app.use(cookieParser());
 app.use(express.static('public'));
 app.use(function (req, res, next) {
     res.locals.user = req.session.user;
@@ -37,7 +40,7 @@ app.use(methodOverride("_method"));
 app.use(express.static("styles")); 
 
 // routes
-const verifyToken = require('../DATABASE/verifytoken.js');  
+const verifyToken = require('../MIDDLEWARES/verifytoken.js');  
 const connectDb = require("../DATABASE/connect.js");
 const homeRouter = require("../ROUTES/Home.js");
 app.use(homeRouter);
