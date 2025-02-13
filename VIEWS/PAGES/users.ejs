@@ -13,7 +13,8 @@
         <form action="/logout" method="POST">
             <button type="submit">Déconnexion</button>
         </form>
-        <a href="#">Je dépose mon dossier</a>       
+        <a href="/depotdossier">Je dépose mon dossier</a>   
+        <a href="/mes-fichiers/<%= user._id %>">Mes fichiers</a>    
     <% } else { %>
         <div class="container">
             <h1>S'enregistrer</h1>

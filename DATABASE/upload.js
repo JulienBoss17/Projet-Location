@@ -9,7 +9,6 @@ const initializeStorage = async () => {
     const db = await connectDb();
     console.log("✅ Base de données connectée");
 
-    // Initialiser GridFS
     gfs = Grid(db, mongoose.mongo);
     gfs.collection('uploads');
 
@@ -23,7 +22,20 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const fileFilter = (req, file, cb) => {
+    const allowedMimeTypes = ["application/pdf", "image/jpeg", "image/png"];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error("Type de fichier non autorisé"), false);
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: { fileSize: 5 * 1024 * 1024 }
+});
 
 initializeStorage().catch(err => console.error("❌ Erreur GridFS :", err));
 

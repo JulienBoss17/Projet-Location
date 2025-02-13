@@ -2,7 +2,7 @@ const User = require("../MODELS/Users.js");
 const session = require('express-session');
 const e = require("express");
 const verifySession = require('../MIDDLEWARES/verifysession.js');
-const UserFile = require('../MODELS/Userfiles.js');
+const UserFile = require('../MODELS/Userfiles');
 const upload = require('../DATABASE/upload');
 
 
@@ -45,4 +45,30 @@ exports.depotDossier = async (req, res) => {
     });
 };
 
-  
+
+
+exports.mesfichiers = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const userFiles = await UserFile.find({ userId });
+
+        if (!userFiles || userFiles.length === 0) {
+            return res.render('pages/candidature', { files: [], message: "Aucun fichier trouvé." });
+        }
+
+        let allFiles = [];
+        userFiles.forEach(doc => {
+            if (doc.files && doc.files.length > 0) {
+                allFiles = allFiles.concat(doc.files);
+            }
+        });
+
+        res.render('pages/candidature', { files: allFiles, message: null });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erreur serveur");
+    }
+};
+

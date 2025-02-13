@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Fichiers</title>
+</head>
+<body>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mes Fichiers</title>
+    </head>
+    <body>
+        <h1>Mes Fichiers</h1>
+    
+        <% if (message) { %>
+            <p><%= message %></p>
+        <% } else { %>
+            <ul>
+                <% files.forEach(file => { %>
+                    <li>
+                        <strong>Nom :</strong> <%= file.originalname %> <br>
+                        <strong>Type :</strong> <%= file.contentType %> <br>
+                        <strong>Date d'upload :</strong> <%= new Date(file.uploadDate).toLocaleString() %> <br>
+                        <a href="/files/<%= file.filename %>" target="_blank">Voir le fichier</a>
+                    </li>
+                    <hr>
+                <% }) %>
+            </ul>
+        <% } %>
+    </body>
+    </html>
+    
+</body>
+</html>
