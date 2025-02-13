@@ -25,7 +25,7 @@
                         <strong>Nom :</strong> <%= file.originalname %> <br>
                         <strong>Type :</strong> <%= file.contentType %> <br>
                         <strong>Date d'upload :</strong> <%= new Date(file.uploadDate).toLocaleString() %> <br>
-                        <a href="/files/<%= file.filename %>" target="_blank">Voir le fichier</a>
+                        <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
                     </li>
                     <hr>
                 <% }) %>

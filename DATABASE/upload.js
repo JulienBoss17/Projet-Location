@@ -1,42 +1,38 @@
 const mongoose = require('mongoose');
-const Grid = require('gridfs-stream');
 const multer = require('multer');
-
+const { GridFSBucket } = require('mongodb');
 const connectDb = require('../DATABASE/connect');
 
-let gfs;
+let gridfsBucket;
+
 const initializeStorage = async () => {
-    const db = await connectDb();
-    console.log("✅ Base de données connectée");
+    try {
+        const db = await connectDb();
+        console.log("✅ Base de données connectée");
 
-    gfs = Grid(db, mongoose.mongo);
-    gfs.collection('uploads');
+        gridfsBucket = new GridFSBucket(db, { bucketName: 'uploads' });
+        console.log("✅ GridFSBucket initialisé");
 
-    console.log("✅ GridFS initialisé");
-};
-
-const storage = multer.diskStorage({
-    destination: './uploads/',
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
-
-const fileFilter = (req, file, cb) => {
-    const allowedMimeTypes = ["application/pdf", "image/jpeg", "image/png"];
-    if (allowedMimeTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error("Type de fichier non autorisé"), false);
+    } catch (err) {
+        console.error("❌ Erreur GridFS :", err);
+        throw err;
     }
 };
 
-const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter,
-    limits: { fileSize: 5 * 1024 * 1024 }
-});
+// Initialiser GridFS au lancement
+const storagePromise = initializeStorage();
 
-initializeStorage().catch(err => console.error("❌ Erreur GridFS :", err));
+// Middleware Multer (stocke en mémoire puis envoie à GridFS)
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-module.exports = upload;
+// Fonction pour récupérer GridFSBucket
+const getGridFsBucket = async () => {
+    if (!gridfsBucket) {
+        console.log("⏳ En attente de GridFSBucket...");
+        await storagePromise;
+    }
+    return gridfsBucket;
+};
+
+module.exports = { upload, getGridFsBucket };

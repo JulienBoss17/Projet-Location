@@ -7,7 +7,6 @@ const e = require("express");
 exports.home = async (req, res) => {
     try {
         const status = req.session.status || 'Non connecté';  
-        console.log('Statut actuel de la session:', status);  
         const chambres = await Chambre.find();
         const chdispo = await Chambre.find({disponibilite: true});
         const chindispo = await Chambre.find({disponibilite: false});
@@ -37,7 +36,6 @@ exports.newUsers = async (req, res) => {
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         req.body.password = hashedPassword;
-        console.log(req.body)
         const newUser = new User(req.body)
         let user = await newUser.save()
         // res.status(201).json({U})

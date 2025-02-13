@@ -12,4 +12,9 @@ router.post('/upload', verifySession("un simple utilisateur"), depotDossierContr
 
 router.get('/mes-fichiers/:userId', depotDossierController.mesfichiers);
 
+router.get("/files/:fileId", depotDossierController.readPdf)
+
+router.get('/files', depotDossierController.listFiles);
+
+
 module.exports = router;
