@@ -12,17 +12,26 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "fs": "^0.0.1-security",
+    "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.1",
+    "multer-gridfs-storage": "^3.3.0",
     "nodemon": "^3.1.9",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/multer-gridfs-storage": "^4.0.8"
   }
 }

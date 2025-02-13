@@ -3,9 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    <title>Dashboard <%= user.role %></title>
 </head>
 <body>
-    <h1>admin</h1>
+    <%- include('../PARTIALS/navbar') %>
+    <h1>admin <%= user.nom %></h1>
+
+    <div class="container">
+        <a href="#">Suivi des contrats de location (date de début, échéance)</a>
+        <a href="#">Notifications et rappels (ex. : échéance de paiement, fin de bail)</a>
+    </div>
+    <div class="container">
+        <a href="#"></a>
+    </div>
+
+    <div class="container">
+        <a href="/edituser/<%= user._id %>">Edit</a>
+        <a href="/deleteuser/<%= user._id %>">Delete</a>
+        <a href="/">Back to Home</a>
+    </div>
 </body>
 </html>

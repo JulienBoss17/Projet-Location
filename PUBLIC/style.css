@@ -1,0 +1,63 @@
+/* header */
+
+li {
+    list-style-type: none;
+}
+#year li {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+#year {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+div{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+section{
+    display: flex;
+    justify-content: space-around;
+    text-align: center  ;
+}
+
+/* footer */
+
+footer {
+    margin-top: 100px;
+    background-color: #333;
+    color: white;
+    padding: 13px;
+    text-align: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a {
+    color: white;
+}
+
+footer ul {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+footer ul li {
+    display: inline;
+}
+
+footer ul li a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #f1f1f1;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dépôt de dossier</title>
+    <link rel="stylesheet" href="/styles.css"> 
+</head>
+<body>
+    <h2>Dépôt de dossier</h2>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="userId" value="<%= user._id %>"> <!-- L'ID utilisateur récupéré -->
+    
+        <label>Pièce d'identité :</label>
+        <input type="file" name="files" >
+    
+        <label>Justificatif de domicile / Bon paiement loyers :</label>
+        <input type="file" name="files" >
+    
+        <label>Justificatifs de situation professionnelle :</label>
+        <input type="file" name="files" >
+    
+        <label>Justificatifs de ressources :</label>
+        <input type="file" name="files" >
+    
+        <label>Avis d'imposition :</label>
+        <input type="file" name="files" >
+    
+        <label>Les justificatifs du ou des garant(s) :</label>
+        <input type="file" name="files">
+    
+        <button type="submit">Soumettre</button>
+    </form>
+    
+</body>
+</html>

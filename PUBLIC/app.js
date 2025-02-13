@@ -8,7 +8,10 @@ const bodyParser = require("body-parser")
 const bcrypt = require("bcrypt");
 const methodOverride = require("method-override");
 const session = require('express-session');
-const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const crypto = require('crypto');
+const { GridFsStorage } = require('multer-gridfs-storage');
+const flash = require('connect-flash');
 
 // app.set
 app.set("view engine", "ejs");
@@ -21,8 +24,8 @@ app.use(session({
         // maxAge: 1*60*1000,  
         secure: false  
     },
-    MONGODB_URI: process.env.MONGODB_URI
 }));
+app.use(flash());
 
 
 // app.use
@@ -38,18 +41,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static("styles")); 
+app.use(cors());
 
 // routes
-const verifyToken = require('../MIDDLEWARES/verifytoken.js');  
-const connectDb = require("../DATABASE/connect.js");
 const homeRouter = require("../ROUTES/Home.js");
+const depotDossierRouter = require("../ROUTES/depotDossier.js");
+const dashboardRouter = require("../ROUTES/dashboard.js");
+
+app.use(dashboardRouter);
 app.use(homeRouter);
+app.use(depotDossierRouter);
 
 // variables
 const port= process.env.PORT || 3020
-
-// connexion db
-connectDb();
 
 app.listen(port,() => {
     console.log("listening http://localhost:"+ port)

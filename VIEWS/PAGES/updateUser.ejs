@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update User</title>
     <link rel="stylesheet" href="/styles.css">
+    <title>Modification de l'utilisateur <%= user.nom %></title>
 </head>
 <body>
+    <%- include('../PARTIALS/navbar') %>
     <div class="container">
-        <h1>Update User</h1>
+        <h1>Modification de l'utilisateur <%= user.nom %></h1>
         <form action="/edituser/<%= user._id %>?_method=PUT" method="POST">
             <label for="prenom">Nom</label>
             <input type="text" id="nom" name="nom" value="<%= user.nom %>" required>

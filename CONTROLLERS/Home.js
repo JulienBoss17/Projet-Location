@@ -1,9 +1,7 @@
 const Chambre = require("../MODELS/Chambres.js");
 const User = require("../MODELS/Users.js");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
 const session = require('express-session');
-const generateToken = require("../MIDDLEWARES/generatetoken.js");
 const e = require("express");
 
 exports.home = async (req, res) => {
@@ -21,7 +19,7 @@ exports.home = async (req, res) => {
   };
 
 exports.compte = async (req, res) => {
-    res.render("PAGES/users");
+    res.render("PAGES/users", {message: req.flash() });
 };
 
 exports.showUsers =  async (req, res) => {
@@ -61,9 +59,9 @@ exports.loginUsers = async (req, res) => {
         user.status = 'Connecté'; 
         await user.save();
 
-        const token = generateToken(user);
+        // const token = generateToken(user);
 
-        req.session.token = token;
+        // req.session.token = token;
         req.session.user = user;
         req.session.userId = user._id;
         req.session.status = user.status;
@@ -167,17 +165,6 @@ exports.showChambres = async (req, res) => {
         res.status(500).json({message: err.message})
     }
 }
-
-exports.dashAdmin = async (req, res) => {
-    console.log("dashAdmin")
-    res.render("pages/dashboardAdmin");
-};
-
-exports.dashLocataire = async (req, res) => {
-    console.log("dashLocataire")
-    res.render("pages/dashboardLocataire");
-};
-
 
 // // Cookies
 // exports.setCookie = async (req, res) => {

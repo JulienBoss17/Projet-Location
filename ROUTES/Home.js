@@ -1,7 +1,7 @@
 const express = require("express");
 const Chambres = require("../MODELS/Chambres.js");
 const router = express.Router();
-const verifyToken = require('../MIDDLEWARES/verifytoken.js');
+const verifySession = require('../MIDDLEWARES/verifysession.js');
 
 const homeController = require("../CONTROLLERS/Home.js");
 
@@ -39,9 +39,5 @@ router.get("/show/:id", homeController.showChambres)
 
 // // setCookie
 // router.get("/setcookie", homeController.setCookie)
-
-router.get("/dashboardadmin", verifyToken("admin"), homeController.dashAdmin)
-
-router.get("/dashboardlocataire", verifyToken("locataire"), homeController.dashLocataire)
 
 module.exports = router;
