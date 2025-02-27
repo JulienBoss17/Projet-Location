@@ -14,7 +14,14 @@
             <button type="submit">Déconnexion</button>
         </form>
         <a href="/depotdossier">Je dépose mon dossier</a>   
-        <a href="/mes-fichiers/<%= user._id %>">Mes fichiers</a>    
+        <a href="/mes-fichiers/<%= user._id %>">Mes fichiers</a>  
+        <% if (success_msg) { %>
+            <div class="flash-message success"><%= success_msg %></div>
+        <% } %>
+    
+        <% if (error_msg) { %>
+            <div class="flash-message error"><%= error_msg %></div>
+        <% } %>  
     <% } else { %>
         <div class="container">
             <h1>S'enregistrer</h1>

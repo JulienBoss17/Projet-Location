@@ -63,11 +63,12 @@ exports.depotDossier = async (req, res) => {
             });
 
             await userFiles.save();
+            req.flash("success", "votre dossier a été déposé avec succès");
             res.redirect("/compte");
 
         } catch (saveError) {
-            console.error('❌ Erreur lors de la sauvegarde des fichiers:', saveError);
-            res.status(500).json({ error: 'Erreur lors de l’enregistrement des fichiers' });
+            req.flash("error", "vous avez déjà déposé un dossier");
+            res.redirect("/compte");
         }
     });
 };
