@@ -8,14 +8,12 @@
 }
 
 a {
-    transition: filter 0.3s ease, color 0.3s ease;
     text-decoration: none;
     color: black;
 }
 
 a:hover {
-    filter: brightness(1.2);
-    color: rgb(255, 255, 255);
+    color: rgb(121, 121, 121);
     text-decoration: none;
 }
 
