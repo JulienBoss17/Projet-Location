@@ -3,25 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="../style.css">
     <title>Dashboard <%= user.role %></title>
 </head>
 <body>
     <%- include('../PARTIALS/navbar') %>
-    <h1>admin <%= user.nom %></h1>
+    <div class="container">
 
-    <div class="container">
-        <a href="#">Suivi des contrats de location (date de début, échéance)</a>
-        <a href="#">Notifications et rappels (ex. : échéance de paiement, fin de bail)</a>
+        <h2>Admin <%= user.nom %> <%= user.prenom %></h2>
+        <h3>Dashboard Admin</h3>
+    
+        <div class="sub-container">
+            <a href="#">Suivi des contrats de location (date de début, échéance)</a>
+        </div>
+    
+        <div class="sub-container">
+            <a href="#">faire une annonce</a>
+            <a href="#">faire une Notifications et/ou un rappel (ex. : échéance de paiement, fin de bail)</a>
+            (possibilité de modifier ou supprimer)
+        </div>
+    
+        <div class="sub-container">
+            <a href="#">Nouveaux dossiers à vérifier</a>
+            <p>
+                (liste des dossiers déposés par les locataires)
+                (possibilité de valider ou refuser le dossier en ajoutant en tant que locataire, avec stipulation du loyer et de la durée du bail(date de début et d'échéance))
+                (possibilité de contacter le locataire)
+            </p>
+        </div>
+    
+        <div class="sub-container">
+            <a href="#">Nouveaux avis à vérifier</a>
+            <p>
+                (liste des avis à poster)
+                (possibilité de valider ou refuser l'avis pour le poster de manière anonyme)
+            </p>
+        </div>
+    
+        <div class="sub-container">
+            <a href="#">Nouveaux avis à poster</a>
+        </div>
+    
+        <div class="sub-container">
+            <a href="#">gérer les chambres</a>
+            <p>
+                (possibilité de modifier ou supprimer une chambre)
+            </p>
+        </div>
     </div>
-    <div class="container">
-        <a href="#"></a>
-    </div>
-
-    <div class="container">
-        <a href="/edituser/<%= user._id %>">Edit</a>
-        <a href="/deleteuser/<%= user._id %>">Delete</a>
-        <a href="/">Back to Home</a>
-    </div>
+    <%- include('../PARTIALS/footer') %>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="../style.css">
     <title>Suppresion de l'utilisateur <%= user.nom %></title>
 </head>
 <body>
@@ -11,11 +11,12 @@
     <div class="container">
         <h1>Supprimmer son compte</h1>
         <p>Voulez vous vraiment supprimer votre compte?</p>
-        <p><strong>Name:</strong> <%= user.nom %></p>
+        <p><strong>Nom du compte :</strong> <%= user.nom %></p>
         <form action="/deleteuser/<%= user._id %>?_method=DELETE" method="POST">
-            <button type="submit">Yes, Delete</button>
+            <button type="submit">Oui, Supprimer</button>
         </form>
-        <a href="/compte">Cancel</a>
+        <a href="/compte">Revenir en arrière</a>
     </div>
+    <%- include('../PARTIALS/footer') %>
 </body>
 </html>

@@ -1,10 +1,72 @@
-<footer>
-    <div class="container">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1; /* Pousse le footer vers le bas */
+  text-align: center;
+  padding: 20px;
+}
+
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+    footer {
+    margin-top: 100px;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+}
+
+footer a {
+    color: white;
+}
+
+footer ul {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 5px;
+}
+
+footer ul li {
+    display: inline;
+}
+
+footer ul li a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #f1f1f1;
+}
+</style>
+<div>
+
+    <footer>
         <h4>&copy; <%= new Date().getFullYear() %> JubDev. All rights reserved.</h4>
         <ul class="footer-links">
             <li><a href="/about">À Propos</a></li>
             <li><a href="/contact">Nous Contacter</a></li>
             <li><a href="/privacy">Privacy Policy</a></li>
         </ul>
-    </div>
-</footer>
+    </footer>
+</div>

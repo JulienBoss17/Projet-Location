@@ -1,26 +1,26 @@
 <ul id="year">
     <h2>Réservation à l'année :</h2>
-    <h3>Disponibilité des chambres :</h3>
+    <h3>Sélectionnez la chambre qui vous intéresse:</h3>
     <% chdispo.forEach(chambre => { %>
-        <li>
-            <a href="/show/<%= chambre._id %>">
-            <% if (chambre.nom == "Chambre 4") { %>
-                <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
-            <% } else if (chambre.nom == "Chambre 10") { %>
-                <img src="/images/chambre10.jpeg" alt="Chambre 10" width="300px" height="auto">
-            <% } else if (chambre.nom == "Chambre 14") { %>
-                <img src="/images/chambre14.jpeg" alt="Chambre 14" width="300px" height="auto">
-            <% } else if (chambre.nom == "Chambre 15") { %>
-                <img src="/images/chambre15.jpeg" alt="Chambre 15" width="300px" height="auto">
-            <% } %>
-            <div>
-                <%= chambre.nom %></a>
-                <h3>Disponible</h3>
-            </div>
-        </li>
+        <a href="/show/<%= chambre._id %>" class="Disponible">
+            <li class="container">
+                <% if (chambre.nom == "Chambre 4") { %>
+                    <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
+                <% } else if (chambre.nom == "Chambre 10") { %>
+                    <img src="/images/chambre10.jpeg" alt="Chambre 10" width="300px" height="auto">
+                <% } else if (chambre.nom == "Chambre 14") { %>
+                    <img src="/images/chambre14.jpeg" alt="Chambre 14" width="300px" height="auto">
+                <% } else if (chambre.nom == "Chambre 15") { %>
+                    <img src="/images/chambre15.jpeg" alt="Chambre 15" width="300px" height="auto">
+                <% } %>
+                <div>
+                    <h2><%= chambre.nom %></h2>
+                </div>
+            </li>
+        </a>
     <% }) %>
     <% chindispo.forEach(chambre => { %>
-        <li>
+        <li class="container Indisponible">
             <% if (chambre.nom == "Chambre 4") { %>
                 <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
             <% } else if (chambre.nom == "Chambre 10") { %>
@@ -32,7 +32,9 @@
             <% } %>
             <div>
                 <h2><%= chambre.nom %></h2>
-                <h3>status : Indisponible</h3>
+                    <% if (chambre.disponibilite === false) {%>
+                        <h3>Indisponible</h3>
+                    <% }%>
             </div>
         </li>
     <% }) %>

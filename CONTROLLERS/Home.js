@@ -33,16 +33,24 @@ exports.showUsers =  async (req, res) => {
 };
 
 exports.newUsers = async (req, res) => {
-    try{
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        req.body.password = hashedPassword;
-        const newUser = new User(req.body)
-        let user = await newUser.save()
-        // res.status(201).json({U})
-        res.redirect("/compte");
-    }
-    catch(err) {
-        res.status(500).json({message: err.message})
+    try {
+        const existingUser = await User.findOne({ nom: req.body.nom });
+        if (existingUser) {
+            req.flash("error", "Utilisateur déjà existant, veuillez essayer de vous connecter.");
+            return res.redirect("/compte");
+        } else {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            req.body.password = hashedPassword;
+
+            const newUser = new User(req.body);
+            await newUser.save();
+
+            req.flash("success", "Compte créé avec succès ! Vous pouvez maintenant vous connecter.");
+            return res.redirect("/compte");
+        }
+    } catch (err) {
+        console.error("Erreur lors de l'inscription :", err);
+        res.status(500).json({ message: err.message });
     }
 };
 
@@ -51,6 +59,7 @@ exports.loginUsers = async (req, res) => {
         const user = await User.findOne({ nom: req.body.nom });
 
         if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
+            req.flash("error2", "Utilisateur ou mot de passe incorrect.");
             return res.redirect('/compte');
         }
 
@@ -69,6 +78,7 @@ exports.loginUsers = async (req, res) => {
                 console.error('Erreur lors de la sauvegarde de la session:', err);
                 return res.status(500).send('Erreur serveur.');
             }
+            req.flash("success", "Connexion réussie !");
             res.redirect('/compte'); 
         });
     } catch (error) {
@@ -142,10 +152,12 @@ exports.updateUsersPage = async (req, res) => {
         res.status(500).json({message: err.message})
     }
 };
+
 exports.updateUsers = async (req,res) => {
   const userId = req.params.id
   try{
       const user = await User.findByIdAndUpdate(userId, req.body,  {new: true})
+      req.flash("success2", "Utilisateur modifié avec succès !");
       res.redirect("/showuser/" + userId);
   }
   catch(err) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="../style.css">
     <title><%= chambre.nom %></title>
 </head>
 <body>
@@ -18,15 +18,15 @@
         </p>
         <p><strong><%= chambre.nom %> situé au <%= chambre.position %></strong></p>
         <% if (chambre.nom == "Chambre 4") { %>
-            <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
+            <img src="/images/chambre4.jpeg" alt="Chambre 4" width="500px" height="auto">
         <% } else if (chambre.nom == "Chambre 10") { %>
-            <img src="/images/chambre10.jpeg" alt="Chambre 10" width="300px" height="auto">
+            <img src="/images/chambre10.jpeg" alt="Chambre 10" width="500px" height="auto">
         <% } else if (chambre.nom == "Chambre 14") { %>
-            <img src="/images/chambre14.jpeg" alt="Chambre 14" width="300px" height="auto">
+            <img src="/images/chambre14.jpeg" alt="Chambre 14" width="500px" height="auto">
         <% } else if (chambre.nom == "Chambre 15") { %>
-            <img src="/images/chambre15.jpeg" alt="Chambre 15" width="300px" height="auto">
+            <img src="/images/chambre15.jpeg" alt="Chambre 15" width="500px" height="auto">
         <% } %>
-        <div class="container">
+        <div class="sub-container">
             <p><strong>Confort :</strong></p>
             <p>Volets : <%= chambre.volets %></p>
             <p>Radiateur : <%= chambre.radiateur %></p>
@@ -39,7 +39,7 @@
             <p>Oreiller : <%= chambre.oreiller %></p>
             <p>Plaid : <%= chambre.plaid %></p>
         </div>
-        <div class="container">
+        <div class="sub-container">
             <% if(user) { %>
                 <h3>Tarif : "chambre.tarif" a ajouter</h3>
                 <a href="/depotdossier">Je dépose mon dossier</a>
@@ -49,5 +49,6 @@
         </div>
 
     </div>
+    <%- include('../PARTIALS/footer') %>
 </body>
 </html>

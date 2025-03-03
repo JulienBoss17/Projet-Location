@@ -63,11 +63,11 @@ exports.depotDossier = async (req, res) => {
             });
 
             await userFiles.save();
-            req.flash("success", "votre dossier a été déposé avec succès");
+            req.flash("success", "Votre dossier a été déposé avec succès");
             res.redirect("/compte");
 
         } catch (saveError) {
-            req.flash("error", "vous avez déjà déposé un dossier");
+            req.flash("error", "Vous avez déjà déposé votre dossier");
             res.redirect("/compte");
         }
     });
