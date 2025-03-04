@@ -11,4 +11,8 @@ router.get("/dashboardadmin", verifySession("admin"), dashboardController.dashAd
 // dashboard locataire
 router.get("/dashboardlocataire", verifySession("locataire"), dashboardController.dashLocataire)
 
+router.post('/casses/:userId', verifySession("locataire") ,dashboardController.casses);
+
+router.post('/annonces/:userId', verifySession("admin") ,dashboardController.annonces);
+
 module.exports = router;

@@ -11,10 +11,10 @@
     <div class="container">
         <h1>Modification de l'utilisateur <%= user.nom %></h1>
         <form action="/edituser/<%= user._id %>?_method=PUT" method="POST">
-            <label for="prenom">Nom</label>
+            <label for="nom">Nom :</label>
             <input type="text" id="nom" name="nom" value="<%= user.nom %>" required>
 
-            <label for="prenom">Email</label>
+            <label for="prenom">Prénom :</label>
             <input type="text" id="prenom" name="prenom" value="<%= user.prenom %>" required>
 
             <button type="submit">Mettre à jour</button>

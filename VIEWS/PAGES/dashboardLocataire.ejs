@@ -8,7 +8,45 @@
 </head>
 <body>
     <%- include('../PARTIALS/navbar') %>
-    <h1>locataire</h1>
+    <div class="container">
+
+        <h2>Locataire <%= user.nom %> <%= user.prenom %></h2>
+        <h3>Dashboard Locataire</h3>
+    
+        <div class="sub-container">
+            <a href="#">Suivi du contrat de location (date de début, échéance)</a>
+            <a href="/mes-fichiers/<%= user._id %>">Voir Mon dossier</a>  
+        </div>    
+        
+    
+        <div class="sub-container">
+                <h4>Ajouter une casse :</h4>
+                <form action="/casses/<%= user._id %>" method="POST">
+
+                    <label for="description">Description du dommage</label><br>
+                    <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+                    <br><br>
+            
+                    <label for="dateCasse">Date de la casse</label>
+                    <input type="date" id="dateCasse" name="dateCasse" value="<%= new Date().toISOString().split('T')[0] %>" required>
+                    <br><br>
+            
+                    <input type="submit" value="Envoyer la déclaration">
+                </form>
+                <% if (success_msg) { %>
+                    <% console.log(success_msg) %>
+                    <div class="flash-message success"><%= success_msg %></div>
+                <% } %>
+        </div>
+    
+        <div class="sub-container">
+            <a href="#">poster un avis</a>
+            <p>
+                si la date de fin de bail est dépassée, possibilité de poster un avis (anonyme ou non)
+            </p>
+        </div>
+
+    </div>
     <%- include('../PARTIALS/footer') %>
 </body>
 </html>

@@ -17,9 +17,9 @@
         <p><strong>Tu es : </strong><%= user.role %></p>
         <p><strong>Status : </strong><%= user.status %></p>
         <div class="sub-container">
-            <a href="/edituser/<%= user._id %>">Edit</a>
-            <a href="/deleteuser/<%= user._id %>">Delete</a>
-            <a href="/">Back to Home</a>
+            <a href="/edituser/<%= user._id %>">Modifier</a>
+            <a href="/deleteuser/<%= user._id %>">Supprimer</a>
+            <a href="/">Retour à l'Accueil</a>
         </div>
     </div>
     <%- include('../PARTIALS/footer') %>

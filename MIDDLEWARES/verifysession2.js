@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require("../MODELS/Users.js");
 
-function verifySession(requiredRole) {
+function verifySession2() {
     return async (req, res, next) => {
         if (!req.session.userId) {
             return res.status(403).json({ message: 'Authentication required' });
@@ -16,18 +16,13 @@ function verifySession(requiredRole) {
 
             req.user = user;
 
-            if (requiredRole && user.role !== requiredRole) {
-                return res.status(403).json({ message: 'Access denied: insufficient permissions' });
-            }
-
             next();
-        } catch (error) {
+
+        }   catch (error) {
             console.error('Error verifying session:', error);
             res.status(500).json({ message: 'Server error' });
         }
-    };
+    }
 }
 
-module.exports = verifySession;
-
-
+module.exports = verifySession2;
