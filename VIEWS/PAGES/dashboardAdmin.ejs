@@ -30,7 +30,7 @@
                     <textarea id="description" name="description" rows="4" cols="50" required></textarea>
                     <br><br>
                 
-                    <label for="dateAnnonce">Date</label>
+                    <label for="dateAnnonce"></label>
                     <input type="date" id="dateAnnonce" name="dateAnnonce" value="<%= new Date().toISOString().split('T')[0] %>" required>
                     <br><br>
                 
@@ -41,16 +41,11 @@
                     <div class="flash-message success"><%= success_msg %></div>
                 <% } %>
             </div>
-
-            <a href="#">faire une Notifications et/ou un rappel (ex. : échéance de paiement, fin de bail)</a>
-            <p>
-                (possibilité de modifier ou supprimer)
-            </p>
-            <p>
-                <h4>Gezstion des casses</h4>
-                <h5>liste des messages reçu</h5>
-                <h5>supprimer tout les messages vues</h5>
-            </p>
+            <div class="sub-container">
+                <h4>Gestion des casses</h4>
+                <h5>Liste des messages reçu</h5>
+                <h5>Supprimer tout les messages vues</h5>
+            </div>
         </div>
         
         <div class="sub-container">
@@ -68,7 +63,7 @@
         </div>
     
         <div class="sub-container">
-            <a href="#">gérer les chambres</a>
+            <a href="#">Gérer les chambres</a>
             <p>
                 <h5>liste des chambres (avec bouton modifier)</h5>
             </p>

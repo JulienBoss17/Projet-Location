@@ -10,8 +10,8 @@ exports.dashAdmin = async (req, res) => {
 };
 
 exports.dashLocataire = async (req, res) => {
-    console.log("dashLocataire")
-    res.render("pages/dashboardLocataire");
+    const annonces = await Annonce.find()
+    res.render("pages/dashboardLocataire", {annonces});
 };
 
 exports.casses = async (req, res) => {

@@ -7,12 +7,28 @@
     <title>Dashboard <%= user.role %></title>
 </head>
 <body>
+    <style>
+
+    </style>
     <%- include('../PARTIALS/navbar') %>
     <div class="container">
 
         <h2>Locataire <%= user.nom %> <%= user.prenom %></h2>
         <h3>Dashboard Locataire</h3>
     
+
+        <% if(annonces) { %>
+            <div class="sub-container">
+                <% annonces.forEach(annonce => { %>
+                        <li class="sub-container">
+                            <strong><%= annonce.titre %></strong>
+                            <h5><%= annonce.description %></h5>
+                            <p><%= annonce.dateAnnonce %></p>
+                        </li>
+                <% }) %>
+            </div>    
+        <% } %>
+
         <div class="sub-container">
             <a href="#">Suivi du contrat de location (date de début, échéance)</a>
             <a href="/mes-fichiers/<%= user._id %>">Voir Mon dossier</a>  
@@ -27,7 +43,7 @@
                     <textarea id="description" name="description" rows="4" cols="50" required></textarea>
                     <br><br>
             
-                    <label for="dateCasse">Date de la casse</label>
+                    <label for="dateCasse"></label>
                     <input type="date" id="dateCasse" name="dateCasse" value="<%= new Date().toISOString().split('T')[0] %>" required>
                     <br><br>
             
