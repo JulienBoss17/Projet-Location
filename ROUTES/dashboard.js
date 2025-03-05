@@ -18,6 +18,6 @@ router.post('/annonces/:userId', verifySession("admin") ,dashboardController.ann
 
 router.get("/deleteallcasse", verifySession("admin"), dashboardController.deleteAllCasse)
 
-router.get("/files/:fileId", verifySession("admin"), depotDossierController.readPdf)
+router.get("/files/:fileId", depotDossierController.readPdf)
 
 module.exports = router;
