@@ -18,15 +18,15 @@
     
 
         <% if(annonces) { %>
-            <div class="sub-container">
-                <% annonces.forEach(annonce => { %>
+            <% annonces.forEach(annonce => { %>
+                <div class="sub-container">
                         <li class="sub-container">
                             <strong><%= annonce.titre %></strong>
                             <h5><%= annonce.description %></h5>
-                            <p><%= annonce.dateAnnonce %></p>
+                            <p>Créé par : <%= annonce.userId.nom %> <%= annonce.userId.prenom %> (<%= annonce.userId.role %>)</p>
                         </li>
+                    </div>    
                 <% }) %>
-            </div>    
         <% } %>
 
         <div class="sub-container">
@@ -50,7 +50,6 @@
                     <input type="submit" value="Envoyer la déclaration">
                 </form>
                 <% if (success_msg) { %>
-                    <% console.log(success_msg) %>
                     <div class="flash-message success"><%= success_msg %></div>
                 <% } %>
         </div>

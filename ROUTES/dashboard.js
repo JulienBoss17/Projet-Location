@@ -3,6 +3,7 @@ const router = express.Router();
 const verifySession = require('../MIDDLEWARES/verifysession.js');
 
 const dashboardController = require("../CONTROLLERS/dashboard.js");
+const depotDossierController = require("../CONTROLLERS/depotDossier.js");
 
 // dashboard admin
 
@@ -14,5 +15,9 @@ router.get("/dashboardlocataire", verifySession("locataire"), dashboardControlle
 router.post('/casses/:userId', verifySession("locataire") ,dashboardController.casses);
 
 router.post('/annonces/:userId', verifySession("admin") ,dashboardController.annonces);
+
+router.get("/deleteallcasse", verifySession("admin"), dashboardController.deleteAllCasse)
+
+router.get("/files/:fileId", verifySession("admin"), depotDossierController.readPdf)
 
 module.exports = router;
