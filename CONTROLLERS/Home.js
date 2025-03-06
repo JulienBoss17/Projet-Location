@@ -175,14 +175,3 @@ exports.showChambres = async (req, res) => {
         res.status(500).json({message: err.message})
     }
 }
-
-// // Cookies
-// exports.setCookie = async (req, res) => {
-//     res.cookie('cookieName', 'testdddd', { maxAge: 3000, httpOnly: true });
-//     res.send('Cookie créé');
-// }
-
-// exports.getCookie = async (req, res) => {
-//     const cookieValue = req.cookies.cookieName;
-//     res.send('Valeur du cookie: ' + cookieValue);
-// }

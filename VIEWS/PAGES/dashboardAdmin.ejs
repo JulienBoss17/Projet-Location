@@ -66,6 +66,14 @@
                             <li>
                                 <strong><%= userData.user.nom %></strong> (<%= userData.user.prenom %>) - <%= userData.user.role %>
                                 
+                                <p>
+                                    <%= userData.user._id %> id pour supprimer tout les dossier concernant le user
+                                </p>
+
+                                <p>
+                                    (possibilité de valider ou refuser le dossier en ajoutant en tant que locataire, avec stipulation du loyer et de la durée du bail (donc faire un form pour post sur le profil des simple utilisateur), (date de début et d'échéance))
+                                </p>
+                                
                                 <!-- Liste des fichiers de l'utilisateur -->
                                 <div class="user-files">
                                     <ul>
@@ -74,7 +82,7 @@
                                                 <strong><%= file.originalname %></strong> - <%= file.contentType %> <br>
                                                 <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
                                             </li>
-                                        <% }) %>
+                                            <% }) %>
                                     </ul>
                                 </div>
                             </li>
@@ -86,10 +94,6 @@
                 <% } %>
                 
             </li>
-            <p>
-                (possibilité de valider ou refuser le dossier en ajoutant en tant que locataire, avec stipulation du loyer et de la durée du bail(date de début et d'échéance))
-                (possibilité de contacter le locataire)
-            </p>
             <a href="#">Nouveaux avis à vérifier</a>
             <p>
                 (liste des avis à poster)
@@ -98,10 +102,14 @@
         </div>
     
         <div class="sub-container">
-            <a href="#">Gérer les chambres</a>
-            <p>
-                <h5>liste des chambres (avec bouton modifier)</h5>
-            </p>
+            <h5>Gérer les chambres</h5>
+            <% chambres.forEach(chambre => { %>
+                <li class="sub-container">
+                    <h5><%= chambre.nom %></h5>
+                    <a href="/updatechambres/<%= chambre._id %>">Modifier cette chambre</a>
+                </li>  
+            <% }) %>
+            
         </div>
     </div>
     <%- include('../PARTIALS/footer') %>

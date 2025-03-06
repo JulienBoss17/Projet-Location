@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Modification de la chambre <%= chambre.nom %></title>
+</head>
+<body>
+    <%- include('../PARTIALS/navbar') %>
+    <div class="container">
+        <h1>Modification de la chambre <%= chambre.nom %></h1>
+        <form action="/editchambre/<%= chambre._id %>?_method=PUT" method="POST">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" value="<%= chambre.nom %>" required>
+        
+            <label for="multi_prises">Nombre de multi_prises :</label>
+            <input type="text" id="multi_prises" name="multi_prises" value="<%= chambre.multi_prises%>" required>
+        
+            <label for="bureau">Nombre de bureau :</label>
+            <input type="text" id="bureau" name="bureau" value="<%= chambre.bureau %>" required>
+        
+            <label for="chaise">Nombre de chaise :</label>
+            <input type="text" id="chaise" name="chaise" value="<%= chambre.chaise %>" required>
+        
+            <label for="oreiller">Nombre d'oreillers :</label>
+            <input type="text" id="oreiller" name="oreiller" value="<%= chambre.oreiller %>" required>
+        
+            <label for="plaid">Nombre de plaids :</label>
+            <input type="text" id="plaid" name="plaid" value="<%= chambre.plaid %>" required>
+        
+            <label for="disponibilite">Disponible :</label>
+            <input type="checkbox" id="disponibilite" name="disponibilite" value="true" <%= chambre.disponibilite ? "checked" : "" %>>
+        
+            <button type="submit">Mettre à jour</button>
+        </form>
+        
+        <% if (success_msg2) { %>
+            <div class="flash-message success"><%= success_msg2 %></div>
+        <% } else if (error_msg2) {%>
+            <div class="flash-message error"><%= error_msg2 %></div>
+        <% } %>  
+        <a href="/dashboardadmin">Revenir au dashboard Admin</a> 
+    </div>
+    <%- include('../PARTIALS/footer') %>
+</body>
+</html>

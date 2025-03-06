@@ -151,7 +151,7 @@ exports.readPdf = async (req, res) => {
 exports.listFiles = async (req, res) => {
     try {
         const gridfsBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-            bucketName: 'uploads'
+            bucketName: 'userfiles'
         });
 
         const files = await gridfsBucket.find().toArray();

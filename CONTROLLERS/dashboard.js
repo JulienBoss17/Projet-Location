@@ -1,4 +1,5 @@
 const User = require("../MODELS/Users.js");
+const Chambre = require("../MODELS/Chambres.js")
 const Casse = require('../MODELS/Casses.js'); // Import du modèle Casse
 const UserFile = require("../MODELS/Userfiles.js")
 const Annonce = require('../MODELS/Annonces.js'); // Import du modèle Annonce
@@ -15,11 +16,9 @@ async function getGridFsBucket() {
 exports.dashAdmin = async (req, res) => {
     const userFiles = await UserFile.find().populate("userId", "nom prenom role");
 
-    // Récupérer tous les fichiers stockés dans GridFS
     const gridfsBucket = await getGridFsBucket();
     const allFiles = await gridfsBucket.find().toArray();
 
-    // Associer les fichiers aux utilisateurs
     const usersWithFiles = userFiles.map(doc => {
         if (doc.files && doc.files.length > 0) {
             return {
@@ -37,10 +36,35 @@ exports.dashAdmin = async (req, res) => {
         }
     }).filter(user => user !== undefined);
 
+    const chambres = await Chambre.find();
 
     const casses = await Casse.find().populate("userId", "nom role prenom");
-    res.render("pages/dashboardAdmin", {casses, usersWithFiles});
+    res.render("pages/dashboardAdmin", {casses, usersWithFiles, chambres});
 };
+
+exports.updateChambresPage = async (req, res) => {
+    const chambreId = req.params.id
+    try {
+        const chambre = await Chambre.findById(chambreId)
+        console.log(chambre)
+        res.render("pages/updateChambre", { chambre });
+    }
+    catch(err) {
+        res.status(500).json({message: err.message})
+    }
+}
+
+exports.updateChambre = async (req, res) => {
+    const chambreId = req.params.id
+    try{
+        const chambre = await Chambre.findByIdAndUpdate(chambreId, req.body,  {new: true})
+        req.flash("success2", `${req.body.nom} modifié avec succès ! Vous pouvez retourner au Dashboard.`);
+        res.redirect("/updatechambres/" + chambreId);
+    }
+    catch(err) {
+        res.status(404).json({message: err.message})
+    }
+}
 
 
 exports.dashLocataire = async (req, res) => {

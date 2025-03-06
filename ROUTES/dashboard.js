@@ -20,4 +20,7 @@ router.get("/deleteallcasse", verifySession("admin"), dashboardController.delete
 
 router.get("/files/:fileId", depotDossierController.readPdf)
 
+router.get("/updatechambres/:id", verifySession("admin"),dashboardController.updateChambresPage)
+router.put("/editchambre/:id", verifySession("admin"),dashboardController.updateChambre)
+
 module.exports = router;

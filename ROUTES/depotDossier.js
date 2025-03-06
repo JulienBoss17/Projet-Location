@@ -13,7 +13,7 @@ router.post('/upload', verifySession("un simple utilisateur"), depotDossierContr
 
 router.get('/mes-fichiers/:userId', verifySession2() ,depotDossierController.mesfichiers);
 
-router.get("/files/:fileId", depotDossierController.readPdf)
+router.get("/files/:fileId" ,depotDossierController.readPdf)
 
 router.get('/files', verifySession("admin"),depotDossierController.listFiles);
 

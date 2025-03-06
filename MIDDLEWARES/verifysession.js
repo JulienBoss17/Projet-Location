@@ -4,7 +4,7 @@ const User = require("../MODELS/Users.js");
 function verifySession(requiredRole) {
     return async (req, res, next) => {
         if (!req.session.userId) {
-            return res.status(403).json({ message: 'Authentication required' });
+            return res.redirect("/compte")
         }
 
         try {
