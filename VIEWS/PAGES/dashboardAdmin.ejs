@@ -10,8 +10,8 @@
     <%- include('../PARTIALS/navbar') %>
     <div class="container">
 
-        <h2>Admin <%= user.nom %> <%= user.prenom %></h2>
-        <h3>Dashboard Admin</h3>
+        <h2>Propriétaire <%= user.nom %> <%= user.prenom %></h2>
+        <p>Bienvenue sur votre <strong>Tableau De Bord Administrateur</strong></p>
     
         <div class="sub-container">
             <a href="#">Suivi des contrats de location (date de début, échéance)</a>
@@ -43,12 +43,14 @@
                 <% } %>
             </div>
             <div class="sub-container">
-                <h4>Gestion des casses</h4>
+                <h4>Réclamations</h4>
                 <% if(casses) { %>
                     <% casses.forEach(casse => { %>
                                 <li class="sub-container">
+                                    <h4>Message reçu : <%= casse.userId.nom %> <%= casse.userId.prenom %> (<%= casse.userId.role %>)</h4>
                                     <h5><%= casse.description %></h5>
-                                    <p>Créé par : <%= casse.userId.nom %> <%= casse.userId.prenom %> (<%= casse.userId.role %>)</p>
+                                    <p>le : <%= new Date(casse.dateCasse).toLocaleDateString('fr-FR') %></p>
+                                        
                                 </li>  
                         <% }) %>
                 <% } %>
@@ -65,17 +67,10 @@
                         <% usersWithFiles.forEach(userData => { %>
                             <li>
                                 <strong><%= userData.user.nom %></strong> (<%= userData.user.prenom %>) - <%= userData.user.role %>
-                                
-                                <p>
-                                    <%= userData.user._id %> id pour supprimer tout les dossier concernant le user
-                                </p>
-
                                 <p>
                                     (possibilité de valider ou refuser le dossier en ajoutant en tant que locataire, avec stipulation du loyer et de la durée du bail (donc faire un form pour post sur le profil des simple utilisateur), (date de début et d'échéance))
                                 </p>
-                                
-                                <!-- Liste des fichiers de l'utilisateur -->
-                                <div class="user-files">
+                                <div class="user-files sub-container">
                                     <ul>
                                         <% userData.files.forEach(file => { %>
                                             <li>
@@ -84,9 +79,12 @@
                                             </li>
                                             <% }) %>
                                     </ul>
+                                    <form action="/delete-files" method="POST">
+                                        <input type="hidden" name="userId" value="<%= userData.user._id %> %>">
+                                        <button type="submit" class="btn btn-danger">Supprimer la candidature</button>
+                                    </form>
                                 </div>
                             </li>
-                            <hr>
                         <% }) %>
                     </ul>
                 <% } else { %>
@@ -95,6 +93,9 @@
                 
             </li>
             <a href="#">Nouveaux avis à vérifier</a>
+            <% if (success_msg2) { %>
+                <div class="flash-message success"><%= success_msg2 %></div>
+            <% } %>
             <p>
                 (liste des avis à poster)
                 (possibilité de valider ou refuser l'avis pour le poster de manière anonyme)

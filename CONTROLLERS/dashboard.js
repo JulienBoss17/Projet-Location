@@ -1,8 +1,8 @@
 const User = require("../MODELS/Users.js");
 const Chambre = require("../MODELS/Chambres.js")
-const Casse = require('../MODELS/Casses.js'); // Import du modèle Casse
+const Casse = require('../MODELS/Casses.js'); 
 const UserFile = require("../MODELS/Userfiles.js")
-const Annonce = require('../MODELS/Annonces.js'); // Import du modèle Annonce
+const Annonce = require('../MODELS/Annonces.js'); 
 const session = require('express-session');
 const e = require("express");
 
@@ -46,7 +46,6 @@ exports.updateChambresPage = async (req, res) => {
     const chambreId = req.params.id
     try {
         const chambre = await Chambre.findById(chambreId)
-        console.log(chambre)
         res.render("pages/updateChambre", { chambre });
     }
     catch(err) {
@@ -95,7 +94,6 @@ exports.casses = async (req, res) => {
             dateCasse: dateCasse || new Date()
         });
 
-        // Sauvegarde dans la base de données
         await newCasse.save();
 
         req.flash("success", "Casse enregistrée avec succès !");
@@ -127,7 +125,6 @@ exports.annonces = async (req, res) => {
             dateAnnonce
         });
 
-        // Sauvegarde dans la base de données
         await newAnnonce.save();
 
         req.flash("success", "Annonce enregistrée avec succès !");
@@ -148,3 +145,40 @@ exports.deleteAllCasse = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+exports.deleteFiles = async (req, res) => {
+    try {
+        let userId = req.body.userId?.trim(); 
+
+        if (!userId) {
+            return res.status(400).json({ error: "Utilisateur non spécifié" });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ error: "ID utilisateur invalide" });
+        }
+
+        const userFiles = await UserFile.findOne({ userId });
+
+        if (!userFiles) {
+            return res.status(404).json({ error: "Aucun fichier trouvé pour cet utilisateur" });
+        }
+
+        const gridfsBucket = await getGridFsBucket();
+
+        for (const file of userFiles.files) {
+            await gridfsBucket.delete(new mongoose.Types.ObjectId(file.fileId));
+        }
+
+        await UserFile.deleteOne({ userId });
+
+        req.flash("success2", "la candidature à été supprimé avec succès");
+        res.redirect("/dashboardadmin");
+
+    } catch (error) {
+        console.error("❌ Erreur lors de la suppression des fichiers :", error);
+        req.flash("error", "Une erreur est survenue lors de la suppression");
+        res.redirect("/compte");
+    }
+};
+

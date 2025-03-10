@@ -12,8 +12,10 @@
         <div class="container">
             <% if (success_msg) { %>
                 <div class="flash-message success"><%= success_msg %></div>
-            <% } else if (error_msg) {%>
-                <div class="flash-message error"><%= error_msg %></div>
+            <% } %>
+            
+            <% if (error_msg2) {%>
+                <div class="flash-message error"><%= error_msg2%></div>
             <% } %>  
             <a href="/showuser/<%= user._id  %>">Profil</a>
             <form action="/logout" method="POST">
@@ -44,7 +46,7 @@
                 <div class="flash-message success"><%= success_msg %></div>
             <% } %>
         
-            <% if (error_msg2) { %>
+            <% if (error_msg) { %>
                 <div class="flash-message error"><%= error_msg %></div>
             <% } %>  
         </div>

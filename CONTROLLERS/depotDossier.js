@@ -6,6 +6,7 @@ const UserFile = require('../MODELS/Userfiles');
 const {upload} = require('../DATABASE/upload');
 const { gfs } = require('../DATABASE/upload.js');
 const mongoose = require("mongoose")
+const { getGridFsBucket } = require('../DATABASE/upload');
 
 
 exports.depotDossier = async (req, res) => {
@@ -29,9 +30,14 @@ exports.depotDossier = async (req, res) => {
         }
 
         try {
+            const existingFiles = await UserFile.findOne({ userId });
+
+            if (existingFiles) {
+                req.flash("error2", "Vous avez déjà déposé votre dossier.");
+                return res.redirect("/compte");
+            }
             const gridfsBucket = await getGridFsBucket();
 
-            // Sauvegarde des fichiers dans GridFS et récupération de leurs IDs
             const filesData = await Promise.all(req.files.map(async (file) => {
                 return new Promise((resolve, reject) => {
                     const uploadStream = gridfsBucket.openUploadStream(file.originalname, {
@@ -42,7 +48,7 @@ exports.depotDossier = async (req, res) => {
 
                     uploadStream.on('finish', () => {
                         resolve({
-                            fileId: uploadStream.id,  // ✅ Utilisation correcte de l'ID
+                            fileId: uploadStream.id, 
                             filename: file.filename,
                             originalname: file.originalname,
                             contentType: file.mimetype
@@ -56,7 +62,6 @@ exports.depotDossier = async (req, res) => {
                 });
             }));
 
-            // Enregistrement des fichiers liés à l'utilisateur
             const userFiles = new UserFile({
                 userId,
                 files: filesData
@@ -101,7 +106,6 @@ exports.mesfichiers = async (req, res) => {
     }
 };
 
-const { getGridFsBucket } = require('../DATABASE/upload');
 
 exports.readPdf = async (req, res) => {
     const { fileId } = req.params;
@@ -121,14 +125,12 @@ exports.readPdf = async (req, res) => {
 
         const objectId = new mongoose.Types.ObjectId(fileId);
 
-        // ✅ Vérification dans `uploads.files` (et non `UserFile`)
         const fileExists = await gridfsBucket.find({ _id: objectId }).toArray();
         if (fileExists.length === 0) {
             console.error("❌ Aucun fichier trouvé dans `uploads.files` pour l'ID :", fileId);
             return res.status(404).json({ error: 'Fichier non trouvé' });
         }
 
-        // ✅ Lecture correcte du fichier
         const readStream = gridfsBucket.openDownloadStream(objectId);
 
         res.setHeader('Content-Type', fileExists[0].contentType);

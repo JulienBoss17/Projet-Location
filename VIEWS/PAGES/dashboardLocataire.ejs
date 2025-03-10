@@ -20,47 +20,41 @@
         <% if(annonces) { %>
             <% annonces.forEach(annonce => { %>
                 <div class="sub-container">
+                    <h3>Dernière annonce :</h3>
                         <li class="sub-container">
                             <strong><%= annonce.titre %></strong>
                             <h5><%= annonce.description %></h5>
-                            <p>Créé par : <%= annonce.userId.nom %> <%= annonce.userId.prenom %> (<%= annonce.userId.role %>)</p>
+                            <p><%= annonce.userId.prenom %> <%= annonce.userId.nom %> : <%= new Date(annonce.dateAnnonce).toLocaleDateString('fr-FR') %></p>
                         </li>
                     </div>    
                 <% }) %>
         <% } %>
 
         <div class="sub-container">
-            <a href="#">Suivi du contrat de location (date de début, échéance)</a>
-            <a href="/mes-fichiers/<%= user._id %>">Voir Mon dossier</a>  
-        </div>    
-        
-    
-        <div class="sub-container">
-                <h4>Ajouter une casse :</h4>
-                <form action="/casses/<%= user._id %>" method="POST">
-
-                    <label for="description">Description du dommage</label><br>
-                    <textarea id="description" name="description" rows="4" cols="50" required></textarea>
-                    <br><br>
-            
-                    <label for="dateCasse"></label>
-                    <input type="date" id="dateCasse" name="dateCasse" value="<%= new Date().toISOString().split('T')[0] %>" required>
-                    <br><br>
-            
-                    <input type="submit" value="Envoyer la déclaration">
-                </form>
-                <% if (success_msg) { %>
-                    <div class="flash-message success"><%= success_msg %></div>
+            <h4>Envoyer un message</h4>
+            <form action="/casses/<%= user._id %>" method="POST">
+                
+                <label for="description">Note :</label><br>
+                <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+                <br><br>
+                
+                <label for="dateCasse"></label>
+                <input type="date" id="dateCasse" name="dateCasse" value="<%= new Date().toISOString().split('T')[0] %>" required>
+                <br><br>
+                
+                <input type="submit" value="Envoyer">
+            </form>
+            <% if (success_msg) { %>
+                <div class="flash-message success"><%= success_msg %></div>
                 <% } %>
-        </div>
-    
-        <div class="sub-container">
-            <a href="#">poster un avis</a>
-            <p>
-                si la date de fin de bail est dépassée, possibilité de poster un avis (anonyme ou non)
-            </p>
-        </div>
-
+            </div>
+            
+            <div class="sub-container">
+                <a href="/mes-fichiers/<%= user._id %>">Voir Mon dossier</a>  
+                <a href="#">Suivi du contrat de location (date de début, échéance)</a>
+                <a href="#">Poster un avis</a>
+                <p>si la date de fin de bail est dépassée, possibilité de poster un avis (anonyme ou non)</p>
+            </div>        
     </div>
     <%- include('../PARTIALS/footer') %>
 </body>

@@ -19,17 +19,13 @@ const initializeStorage = async () => {
     }
 };
 
-// Initialiser GridFS au lancement
 const storagePromise = initializeStorage();
 
-// Middleware Multer (stocke en mémoire puis envoie à GridFS)
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Fonction pour récupérer GridFSBucket
 const getGridFsBucket = async () => {
     if (!gridfsBucket) {
-        console.log("⏳ En attente de GridFSBucket...");
         await storagePromise;
     }
     return gridfsBucket;

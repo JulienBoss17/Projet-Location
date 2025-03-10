@@ -23,4 +23,6 @@ router.get("/files/:fileId", depotDossierController.readPdf)
 router.get("/updatechambres/:id", verifySession("admin"),dashboardController.updateChambresPage)
 router.put("/editchambre/:id", verifySession("admin"),dashboardController.updateChambre)
 
+router.post("/delete-files", verifySession("admin"),dashboardController.deleteFiles);
+
 module.exports = router;

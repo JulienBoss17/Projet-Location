@@ -34,10 +34,4 @@ router.put("/edituser/:id", homeController.updateUsers)
 // voir une chambre par id
 router.get("/show/:id", homeController.showChambres)
 
-// // getCookie
-// router.get("/getcookie", homeController.getCookie)
-
-// // setCookie
-// router.get("/setcookie", homeController.setCookie)
-
 module.exports = router;

@@ -66,9 +66,6 @@ exports.loginUsers = async (req, res) => {
         user.status = 'Connecté'; 
         await user.save();
 
-        // const token = generateToken(user);
-
-        // req.session.token = token;
         req.session.user = user;
         req.session.userId = user._id;
         req.session.status = user.status;
@@ -92,7 +89,7 @@ exports.logoutUsers = async (req, res) => {
         const userId = req.session.userId;  
 
         if (!userId) {
-            return res.status(400).json({ message: "L'utilisateur n'est pas connecté" });
+            return res.redirect('/');
         }
 
         const user = await User.findById(userId);

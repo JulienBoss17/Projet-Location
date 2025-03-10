@@ -7,7 +7,7 @@ let dbInstance = null;
 
 const connectDb = async () => {
     if (dbInstance) {
-        return dbInstance; // Retourne la connexion si elle existe déjà
+        return dbInstance; 
     }
     try {
         const conn = await mongoose.connect(MONGODB_URI);

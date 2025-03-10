@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken');
-const User = require("../MODELS/Users.js");
+const User = require('../MODELS/Users.js');
 
 function verifySession2() {
     return async (req, res, next) => {
