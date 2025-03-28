@@ -10,7 +10,6 @@ const methodOverride = require("method-override");
 const session = require('express-session');
 const cors = require('cors');
 const crypto = require('crypto');
-const { GridFsStorage } = require('multer-gridfs-storage');
 const flash = require('connect-flash');
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo");

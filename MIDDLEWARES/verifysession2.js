@@ -11,13 +11,13 @@ function verifySession2() {
             const user2 = await User.findById(req.session.userId)
             
             if (!user) {
-                return res.status(403).json({ message: 'User not found' });
+                return res.redirect("/compte")
             }
             
             req.user = user;
             
             if (user._id.toString() !== user2._id.toString()) {
-                return res.status(403).json({ message: 'User not connected' });
+                return res.redirect("/compte")
             }
             next();
             

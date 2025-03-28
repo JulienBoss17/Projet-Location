@@ -90,12 +90,11 @@
                 <% } else { %>
                     <p>Aucun utilisateur n'a déposé de fichiers.</p>
                 <% } %>
-                
             </li>
+                <% if (success_msg2) { %>
+                    <div class="flash-message success"><%= success_msg2 %></div>
+                <% } %>
             <a href="#">Nouveaux avis à vérifier</a>
-            <% if (success_msg2) { %>
-                <div class="flash-message success"><%= success_msg2 %></div>
-            <% } %>
             <p>
                 (liste des avis à poster)
                 (possibilité de valider ou refuser l'avis pour le poster de manière anonyme)
