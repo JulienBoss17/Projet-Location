@@ -31,13 +31,16 @@
             <h1>S'enregistrer</h1>
             <form action="/register" method="POST">
 
-                <label for="nom">Nom</label>
+                <label for="email">Email :</label>
+                <input type="text" name="email" id="email" required>
+
+                <label for="nom">Nom :</label>
                 <input type="text" id="nom" name="nom" required>
 
-                <label for="first">Prénom</label>
+                <label for="prenom">Prénom :</label>
                 <input type="text" id="prenom" name="prenom" required>
 
-                <label for="password">Mot de passe</label>
+                <label for="password">Mot de passe :</label>
                 <input type="password" id="password" name="password" required>
 
                 <button type="submit">S'enregistrer</button>
@@ -53,10 +56,10 @@
         <div class="container">
             <h1>Login</h1>
             <form action="/login" method="POST">
-                <label for="nom">Nom</label>
-                <input type="text" id="nom" name="nom" required>
+                <label for="email">Email :</label>
+                <input type="text" id="email" name="email" required>
     
-                <label for="password">Mot de passe</label>
+                <label for="password">Mot de passe :</label>
                 <input type="password" id="password" name="password" required>
     
                 <button type="submit">Se connecter</button>

@@ -3,6 +3,7 @@ const User = require("../MODELS/Users.js");
 const bcrypt = require("bcrypt");
 const session = require('express-session');
 const e = require("express");
+const validator = require("validator");
 
 exports.home = async (req, res) => {
     try {
@@ -34,54 +35,67 @@ exports.showUsers =  async (req, res) => {
 
 exports.newUsers = async (req, res) => {
     try {
-        const existingUser = await User.findOne({ nom: req.body.nom });
-        if (existingUser) {
-            req.flash("error", "Utilisateur déjà existant, veuillez essayer de vous connecter.");
-            return res.redirect("/compte");
-        } else {
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            req.body.password = hashedPassword;
-
-            const newUser = new User(req.body);
+            const { email, password } = req.body;
+    
+            if (!validator.isEmail(email)) {
+                req.flash("error", "Email invalide !");
+                return res.redirect("/compte"); 
+            }
+    
+            const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                req.flash("error", "Utilisateur déjà existant, veuillez essayer de vous connecter.");
+                return res.redirect("/compte"); 
+            }
+    
+            if (!password) {
+                return res.status(400).json({ message: "Mot de passe requis" });
+            }
+    
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const newUser = new User({ ...req.body, password: hashedPassword });
+            console.log(newUser);
+    
             await newUser.save();
-
+    
             req.flash("success", "Compte créé avec succès ! Vous pouvez maintenant vous connecter.");
-            return res.redirect("/compte");
+            return res.redirect("/compte"); 
+    
+        } catch (err) {
+            if (!res.headersSent) {  
+                console.error("Erreur lors de l'inscription :", err);
+                return res.status(500).json({ message: err.message });
+            }
         }
-    } catch (err) {
-        console.error("Erreur lors de l'inscription :", err);
-        res.status(500).json({ message: err.message });
-    }
 };
 
 exports.loginUsers = async (req, res) => {
-    try {
-        const user = await User.findOne({ nom: req.body.nom });
-
-        if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-            req.flash("error2", "Utilisateur ou mot de passe incorrect.");
-            return res.redirect('/compte');
-        }
-
-        user.status = 'Connecté'; 
-        await user.save();
-
-        req.session.user = user;
-        req.session.userId = user._id;
-        req.session.status = user.status;
-
-        req.session.save(err => {
-            if (err) {
-                console.error('Erreur lors de la sauvegarde de la session:', err);
-                return res.status(500).send('Erreur serveur.');
+        try {
+            const user = await User.findOne({ email: req.body.email});
+    
+            if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
+                req.flash("error", "Email ou mot de passe incorrect !");
+                return res.redirect('/compte');
             }
-            req.flash("success", "Connexion réussie !");
-            res.redirect('/compte'); 
-        });
-    } catch (error) {
-        console.error('Erreur lors de la tentative de connexion:', error);
-        res.status(500).send('Erreur serveur.');
-    }
+    
+            user.status = 'Connecté'; 
+            await user.save();
+    
+            req.session.user = user;
+            req.session.userId = user._id;
+            req.session.status = user.status;
+    
+            req.session.save(err => {
+                if (err) {
+                    console.error('Erreur lors de la sauvegarde de la session:', err);
+                    return res.status(500).send('Erreur serveur.');
+                }
+                res.redirect('/'); 
+            });
+        } catch (error) {
+            console.error('Erreur lors de la tentative de connexion:', error);
+            res.status(500).send('Erreur serveur.');
+        }
 };
 
 exports.logoutUsers = async (req, res) => {

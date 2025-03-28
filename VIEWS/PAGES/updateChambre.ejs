@@ -30,7 +30,10 @@
             <input type="text" id="plaid" name="plaid" value="<%= chambre.plaid %>" required>
         
             <label for="disponibilite">Disponible :</label>
-            <input type="checkbox" id="disponibilite" name="disponibilite" value="true" <%= chambre.disponibilite ? "checked" : "" %>>
+            <select id="disponibilite" name="disponibilite">
+                <option value="true" <%= chambre.disponibilite ? "selected" : "" %>>Oui</option>
+                <option value="false" <%= !chambre.disponibilite ? "selected" : "" %>>Non</option>
+            </select>
         
             <button type="submit">Mettre à jour</button>
         </form>

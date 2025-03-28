@@ -12,19 +12,23 @@ const cors = require('cors');
 const crypto = require('crypto');
 const { GridFsStorage } = require('multer-gridfs-storage');
 const flash = require('connect-flash');
+const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo");
 
 // app.set
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use(session({
-    secret: process.env.SECRETSESSION, 
-    resave: false,  
-    saveUninitialized: false,  
-    cookie: { 
-        maxAge: 5*60*1000,  
-        secure: false  
-    },
-}));
+    secret: process.env.SECRETSESSION,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 1
+    }
+  }));
 app.use(flash());
 
 app.use((req, res, next) => {
