@@ -15,12 +15,14 @@ async function getGridFsBucket() {
 
 exports.dashAdmin = async (req, res) => {
     const userFiles = await UserFile.find().populate("userId", "nom prenom role");
-
+    
     const gridfsBucket = await getGridFsBucket();
     const allFiles = await gridfsBucket.find().toArray();
 
-    const usersWithFiles = userFiles.map(doc => {
+    const usersWithFiles = await Promise.all(userFiles.map(async (doc) => {
         if (doc.files && doc.files.length > 0) {
+            const chambre = await Chambre.findById(doc.chambre);  // Récupère la chambre associée
+
             return {
                 user: doc.userId,
                 files: doc.files.map(file => {
@@ -31,10 +33,11 @@ exports.dashAdmin = async (req, res) => {
                         contentType: gridFile ? gridFile.contentType : "Type inconnu",
                         uploadDate: file.uploadDate,
                     };
-                })
+                }),
+                chambre: chambre ? chambre.nom : "Chambre non trouvée", // Affiche le nom de la chambre si trouvée
             };
         }
-    }).filter(user => user !== undefined);
+    })).then(result => result.filter(user => user !== undefined));
 
     const chambres = await Chambre.find();
 
@@ -43,6 +46,7 @@ exports.dashAdmin = async (req, res) => {
     const casses = await Casse.find().populate("userId", "nom role prenom");
     res.render("pages/dashboardAdmin", {casses, usersWithFiles, chambres, users});
 };
+
 
 exports.updateChambresPage = async (req, res) => {
     const chambreId = req.params.id

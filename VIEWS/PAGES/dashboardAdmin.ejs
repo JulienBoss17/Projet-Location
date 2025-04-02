@@ -73,14 +73,15 @@
                         <% usersWithFiles.forEach(userData => { %>
                             <% if(userData.user.role === "un simple utilisateur") { %>
                             <li>
-                                <strong><%= userData.user.nom %></strong> <%= userData.user.prenom %> - 
-                                <p>Numéro de chambre souhaité : <%= userData.chambre %></p>
-                                <%= new Date(userData.files[0].uploadDate).toLocaleDateString("fr-FR") %> à 
+                                <div>
+                                <p><strong><%= userData.user.nom %> <%= userData.user.prenom %> </strong>- pour la <%= userData.chambre %></p>
+                                le <%= new Date(userData.files[0].uploadDate).toLocaleDateString("fr-FR") %> à 
                                     <%= new Date(userData.files[0].uploadDate).toLocaleString("fr-FR", { 
                                         timeZone: "Europe/Paris", 
                                         hour: "2-digit", 
                                         minute: "2-digit" 
                                       }) %>%>
+                                </div>
                                 <div class="user-files">
                                     <ul>
                                         <% userData.files.forEach(file => { %>
@@ -90,24 +91,25 @@
                                                 <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
                                             </li>
                                             <% }) %>
-                                        </ul>
-                                        <p>
-                                            (possibilité de valider ou refuser le dossier en ajoutant en tant que locataire, avec stipulation du loyer et de la durée du bail (donc faire un form pour post sur le profil des simple utilisateur), (date de début et d'échéance))
-                                        </p>
-                                    <form action="/delete-files" method="POST">
-                                        <input type="hidden" name="userId" value="<%= userData.user._id %> %>">
-                                        <button type="submit" class="btn btn-danger">refuser la candidature</button>
-                                    </form>
+                                    </ul>
+                                    <p>
+                                        (possibilité de valider ou refuser le dossier en ajoutant en tant que locataire, avec stipulation du loyer et de la durée du bail (donc faire un form pour post sur le profil des simple utilisateur), (date de début et d'échéance))
+                                    </p>
+                                    <br>
+                                    <em>Cette personne a demandé à avoir la <%= userData.chambre %></em>
                                     <form action="/admin/valider-locataire/<%= userData.user._id %>" method="POST">
                                         <label for="chambre">Assigner une chambre :</label>
                                         <select name="chambre" id="chambre" required>
                                             <% chambres.forEach(chambre => { %>
                                                 <option value="<%= chambre._id %>"><%= chambre.nom %></option>
-                                            <% }) %>
-                                        </select>
-                                        <button type="submit">Accepter le dossier</button>
+                                                <% }) %>
+                                            </select>
+                                            <button type="submit">Accepter le dossier</button>
                                     </form>
-                                    
+                                    <form action="/delete-files" method="POST">
+                                         <input type="hidden" name="userId" value="<%= userData.user._id %> %>">
+                                        <button type="submit" class="btn btn-danger">refuser la candidature</button>
+                                    </form>         
                                 </div>
                             </li>
                             <% } %>

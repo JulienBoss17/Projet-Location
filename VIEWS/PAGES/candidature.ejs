@@ -19,6 +19,11 @@
         <div class="container">
             <h1>Mes Fichiers</h1>
             <h2><%= user1.nom %> <%= user1.prenom %></h2>
+            <% if(chambreUser) { %>
+            <h3><%= chambreUser.nom %></h3>
+            <% } else {%>
+                <h3>Votre dossier n'est pas encore accepté. Si vous n'avez pas de réponse d'ici 15 jours, veuillez considérer que votre demande n'a pas été acceptée.</h3>
+            <% } %>
             <% if (message) { %>
                 <p><%= message %></p>
             <% } else { %>

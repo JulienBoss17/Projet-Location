@@ -9,10 +9,10 @@ const depotDossierController = require("../CONTROLLERS/depotDossier.js");
 
 // dashboard admin
 
-router.get("/dashboardadmin", verifySession2(), dashboardController.dashAdmin)
+router.get("/dashboardadmin", verifySession("admin"), dashboardController.dashAdmin)
 
 // dashboard locataire
-router.get("/dashboardlocataire", verifySession2(), dashboardController.dashLocataire)
+router.get("/dashboardlocataire", verifySession("locataire"), dashboardController.dashLocataire)
 
 router.post('/casses/:userId', verifySession2() ,dashboardController.casses);
 
@@ -27,6 +27,6 @@ router.put("/editchambre/:id", verifySession2(),dashboardController.updateChambr
 
 router.post("/delete-files", verifySession2(),dashboardController.deleteFiles);
 
-router.post("/valider-locataire/:userId", dashboardController.assignChambreToLocataire);
+router.post("/admin/valider-locataire/:userId", dashboardController.assignChambreToLocataire);
 
 module.exports = router;

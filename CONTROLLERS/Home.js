@@ -5,6 +5,8 @@ const session = require('express-session');
 const e = require("express");
 const validator = require("validator");
 
+const UserFile = require('../MODELS/Userfiles.js');
+
 exports.home = async (req, res) => {
     try {
         const status = req.session.status || 'Non connecté';  
@@ -130,6 +132,21 @@ exports.deleteUsersPage = async (req, res) => {
 exports.deleteUsers = async (req, res) => {
     const userId = req.params.id;
     try {
+
+         const userFiles = await UserFile.findOne({ userId });
+        
+                if (!userFiles) {
+                    return res.status(404).json({ error: "Aucun fichier trouvé pour cet utilisateur" });
+                }
+        
+                const gridfsBucket = await getGridFsBucket();
+        
+                for (const file of userFiles.files) {
+                    await gridfsBucket.delete(new mongoose.Types.ObjectId(file.fileId));
+                }
+        
+                await UserFile.deleteOne({ userId });
+
         const user = await User.findByIdAndDelete(userId);
 
         if (req.session.userId === userId) {
