@@ -18,7 +18,7 @@
         <%- include('../PARTIALS/navbar') %>
         <div class="container">
             <h1>Mes Fichiers</h1>
-        
+            <h2><%= user1.nom %> <%= user1.prenom %></h2>
             <% if (message) { %>
                 <p><%= message %></p>
             <% } else { %>
@@ -29,12 +29,29 @@
                             <strong>Type :</strong> <%= file.contentType %> <br>
                             <strong>Date d'upload :</strong> <%= new Date(file.uploadDate).toLocaleString() %> <br>
                             <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
+                            <% if(user.role === "admin") { %>
+                                <form action="/admin/delete/<%= file.fileId %>" method="POST" style="display:inline;">
+                                    <button type="submit" class="delete-button">Supprimer</button>
+                                </form>
+                            <% } %>
                         </li>
                         <hr>
                     <% }) %>
                 </ul>
             <% } %>
         </div>
+
+        <% if(user.role === "admin") {%>
+
+            <div class="sub-container">
+                <h2>Ajouter un fichier :</h2>
+                <form action="/admin/upload/<%= userId %>" method="POST" enctype="multipart/form-data">
+                    <label for="file">Sélectionner un fichier :</label><br>
+                    <input type="file" id="file" name="file" required><br><br>
+                    <input type="submit" value="Uploader le fichier">
+                </form>
+            </div>
+        <% } %>
         <%- include('../PARTIALS/footer') %>
     </body>
     </html>

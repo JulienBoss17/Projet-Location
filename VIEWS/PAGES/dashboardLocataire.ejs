@@ -38,10 +38,6 @@
                 <textarea id="description" name="description" rows="4" cols="50" required></textarea>
                 <br><br>
                 
-                <label for="dateCasse"></label>
-                <input type="date" id="dateCasse" name="dateCasse" value="<%= new Date().toISOString().split('T')[0] %>" required>
-                <br><br>
-                
                 <input type="submit" value="Envoyer">
             </form>
             <% if (success_msg) { %>

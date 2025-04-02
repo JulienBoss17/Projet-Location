@@ -14,12 +14,21 @@
         <p>Bienvenue sur votre <strong>Tableau De Bord Administrateur</strong></p>
     
         <div class="sub-container">
-            <a href="#">Suivi des contrats de location (date de début, échéance)</a>
+            <h2>Suivi des contrats de location (date de début, échéance)</h2>
+            <% if(users) { %>
+                <% users.forEach(user => { %>
+                            <li class="sub-container">
+                                <h4><%= user.nom %> <%= user.prenom %> (<%= user.email %>)</h4>
+                                <a href="/mes-fichiers/<%= user._id %>">accéder à son espace</a>
+                                <a href="#">Retirer ce locataire</a>
+                            </li>  
+                    <% }) %>
+            <% } %>
         </div>
     
         <div class="sub-container">
             <div class="sub-container">
-                <h4>Ajouter une annonce :</h4>
+                <h2>Ajouter une annonce :</h2>
                 <form action="/annonces/<%= user._id %>" method="POST" >
         
                     <label for="titre">Titre de l'annonce</label><br>
@@ -28,13 +37,7 @@
                 
                     <label for="description">Description</label><br>
                     <textarea id="description" name="description" rows="4" cols="50" required></textarea>
-                    <br><br>
-                
-                    <label for="dateAnnonce"></label>
-                    <input type="date" id="dateAnnonce" name="dateAnnonce" 
-                           value="<%= new Date().toISOString().split('T')[0] %>" required>
-                    <br><br>
-                    
+                    <br><br>                 
                 
                     <input type="submit" value="Publier l'annonce">
                 </form>
@@ -49,42 +52,65 @@
                                 <li class="sub-container">
                                     <h4>Message reçu : <%= casse.userId.nom %> <%= casse.userId.prenom %> (<%= casse.userId.role %>)</h4>
                                     <h5><%= casse.description %></h5>
-                                    <p>le : <%= new Date(casse.dateCasse).toLocaleDateString('fr-FR') %></p>
-                                        
+                                    <%= new Date(casse.dateCasse).toLocaleDateString("fr-FR") %> à 
+                                    <%= new Date(casse.dateCasse).toLocaleString("fr-FR", { 
+                                        timeZone: "Europe/Paris", 
+                                        hour: "2-digit", 
+                                        minute: "2-digit" 
+                                      }) %>%>
+                                    <a href="/deletecasse/<%= casse._id %>">Supprimer</a>
                                 </li>  
                         <% }) %>
                 <% } %>
-                <a href="/deleteallcasse">Supprimer tout les messages</a>
             </div>
         </div>
         
         <div class="sub-container">
-            <a href="#">Nouveaux dossiers à vérifier</a>
+            <h2>Nouveaux dossiers à vérifier</h2>
             <li class="sub-container">
                 <% if (usersWithFiles && usersWithFiles.length > 0) { %>
-                    <h3>Utilisateurs ayant des fichiers :</h3>
                     <ul>
                         <% usersWithFiles.forEach(userData => { %>
+                            <% if(userData.user.role === "un simple utilisateur") { %>
                             <li>
-                                <strong><%= userData.user.nom %></strong> (<%= userData.user.prenom %>) - <%= userData.user.role %>
-                                <p>
-                                    (possibilité de valider ou refuser le dossier en ajoutant en tant que locataire, avec stipulation du loyer et de la durée du bail (donc faire un form pour post sur le profil des simple utilisateur), (date de début et d'échéance))
-                                </p>
-                                <div class="user-files sub-container">
+                                <strong><%= userData.user.nom %></strong> <%= userData.user.prenom %> - 
+                                <p>Numéro de chambre souhaité : <%= userData.chambre %></p>
+                                <%= new Date(userData.files[0].uploadDate).toLocaleDateString("fr-FR") %> à 
+                                    <%= new Date(userData.files[0].uploadDate).toLocaleString("fr-FR", { 
+                                        timeZone: "Europe/Paris", 
+                                        hour: "2-digit", 
+                                        minute: "2-digit" 
+                                      }) %>%>
+                                <div class="user-files">
                                     <ul>
                                         <% userData.files.forEach(file => { %>
+                                            <br>
                                             <li>
-                                                <strong><%= file.originalname %></strong> - <%= file.contentType %> <br>
+                                                <strong><%= file.filename %></strong><br>
                                                 <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
                                             </li>
                                             <% }) %>
-                                    </ul>
+                                        </ul>
+                                        <p>
+                                            (possibilité de valider ou refuser le dossier en ajoutant en tant que locataire, avec stipulation du loyer et de la durée du bail (donc faire un form pour post sur le profil des simple utilisateur), (date de début et d'échéance))
+                                        </p>
                                     <form action="/delete-files" method="POST">
                                         <input type="hidden" name="userId" value="<%= userData.user._id %> %>">
-                                        <button type="submit" class="btn btn-danger">Supprimer la candidature</button>
+                                        <button type="submit" class="btn btn-danger">refuser la candidature</button>
                                     </form>
+                                    <form action="/admin/valider-locataire/<%= userData.user._id %>" method="POST">
+                                        <label for="chambre">Assigner une chambre :</label>
+                                        <select name="chambre" id="chambre" required>
+                                            <% chambres.forEach(chambre => { %>
+                                                <option value="<%= chambre._id %>"><%= chambre.nom %></option>
+                                            <% }) %>
+                                        </select>
+                                        <button type="submit">Accepter le dossier</button>
+                                    </form>
+                                    
                                 </div>
                             </li>
+                            <% } %>
                         <% }) %>
                     </ul>
                 <% } else { %>
@@ -94,11 +120,14 @@
                 <% if (success_msg2) { %>
                     <div class="flash-message success"><%= success_msg2 %></div>
                 <% } %>
-            <a href="#">Nouveaux avis à vérifier</a>
-            <p>
-                (liste des avis à poster)
-                (possibilité de valider ou refuser l'avis pour le poster de manière anonyme)
-            </p>
+                <div class="sub-container">
+
+                    <h2>Nouveaux avis à vérifier</h2>
+                    <p>
+                        (liste des avis à poster)
+                        (possibilité de valider ou refuser l'avis pour le poster de manière anonyme)
+                    </p>
+                </div>
         </div>
     
         <div class="sub-container">

@@ -11,11 +11,11 @@
     <div class="container">
         <h1>Supprimmer son compte</h1>
         <p>Voulez vous vraiment supprimer votre compte?</p>
-        <p><strong>Nom du compte :</strong> <%= user.nom %></p>
+        <p><strong>Compte :</strong> <%= user.email %></p>
         <form action="/deleteuser/<%= user._id %>?_method=DELETE" method="POST">
             <button type="submit">Oui, Supprimer</button>
         </form>
-        <a href="/compte">Revenir en arrière</a>
+        <a href="/showuser/<%= user._id  %>">Revenir en arrière</a>
     </div>
     <%- include('../PARTIALS/footer') %>
 </body>

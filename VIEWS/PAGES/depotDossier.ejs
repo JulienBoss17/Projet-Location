@@ -30,6 +30,14 @@
         
             <label>Les justificatifs du ou des garant(s) :</label>
             <input type="file" name="files" required>
+
+            <label for="chambre">Choisissez votre chambre :</label>
+            
+            <select name="chambre" id="chambre" required>
+                <% chambres.forEach(chambre => { %>
+                    <option value="<%= chambre._id %>"><%= chambre.nom %></option>
+                <% }) %>
+            </select>
         
             <button type="submit">Soumettre</button>
         </form>

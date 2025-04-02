@@ -10,7 +10,8 @@ const UserFileSchema = new mongoose.Schema({
             contentType: String,
             uploadDate: { type: Date, default: Date.now }
         }
-    ]
+    ],
+    chambre : { type: mongoose.Schema.Types.ObjectId, ref: 'chambres', default: null }, // 🔥 Ajout du champ chambre
 });
 
 module.exports = mongoose.model('UserFile', UserFileSchema);

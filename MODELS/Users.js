@@ -23,6 +23,7 @@ const UserSchema = mongoose.Schema({
       enum: ['Connecté', 'Non connecté'], 
       default: 'Non connecté'
     },
+    chambre: { type: mongoose.Schema.Types.ObjectId, ref: 'chambres', default: null } // 🔥 Ajout du champ chambre
 })
 
 const User = mongoose.model('users', UserSchema)

@@ -38,8 +38,10 @@ exports.dashAdmin = async (req, res) => {
 
     const chambres = await Chambre.find();
 
+    const users = await User.find({ role: "locataire" });
+
     const casses = await Casse.find().populate("userId", "nom role prenom");
-    res.render("pages/dashboardAdmin", {casses, usersWithFiles, chambres});
+    res.render("pages/dashboardAdmin", {casses, usersWithFiles, chambres, users});
 };
 
 exports.updateChambresPage = async (req, res) => {
@@ -136,13 +138,21 @@ exports.annonces = async (req, res) => {
     }
 }
 
-exports.deleteAllCasse = async (req, res) => {
+exports.deleteCasse = async (req, res) => {
+    const casseId = req.params.id; 
+
     try {
-        await Casse.deleteMany(); 
-        res.redirect("/dashboardadmin"); 
+        const casse = await Casse.findByIdAndDelete(casseId);
+
+        if (!casse) {
+            return res.status(404).json({ message: "Casse non trouvée" });
+        }
+
+        res.redirect("/dashboardadmin");
+
     } catch (err) {
-        console.error("Erreur lors de la suppression :", err.message);
-        res.status(500).json({ message: err.message });
+        console.error('Erreur lors de la suppression de la casse:', err.message);
+        res.status(500).json({ message: "Erreur serveur" });
     }
 };
 
@@ -177,8 +187,38 @@ exports.deleteFiles = async (req, res) => {
 
     } catch (error) {
         console.error("❌ Erreur lors de la suppression des fichiers :", error);
-        req.flash("error", "Une erreur est survenue lors de la suppression");
         res.redirect("/compte");
+    }
+};
+
+exports.assignChambreToLocataire = async (req, res) => {
+    const { userId } = req.params;
+    const { chambre } = req.body; // Récupérer l’ID de la chambre depuis le formulaire
+
+    try {
+        // Vérifier si la chambre existe
+        const chambreExiste = await Chambre.findById(chambre);
+        if (!chambreExiste) {
+            req.flash("error", "Cette chambre n'existe pas.");
+            return res.redirect("/dashboardadmin");
+        }
+
+        // Mettre à jour l'utilisateur : changer son rôle et assigner la chambre
+        await User.findByIdAndUpdate(userId, { 
+            role: "locataire",
+            chambre: chambre
+        });
+
+        // Mettre à jour le statut du dossier
+        await UserFile.updateOne({ userId }, { status: "Accepté" });
+
+        req.flash("success", "Le locataire a été accepté et la chambre lui a été assignée.");
+        res.redirect("/dashboardadmin");
+
+    } catch (error) {
+        console.error("❌ Erreur:", error);
+        req.flash("error", "Une erreur est survenue.");
+        res.redirect("/dashboardadmin");
     }
 };
 

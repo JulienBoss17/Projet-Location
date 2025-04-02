@@ -54,7 +54,6 @@ exports.newUsers = async (req, res) => {
     
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = new User({ ...req.body, password: hashedPassword });
-            console.log(newUser);
     
             await newUser.save();
     
@@ -74,7 +73,7 @@ exports.loginUsers = async (req, res) => {
             const user = await User.findOne({ email: req.body.email});
     
             if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-                req.flash("error", "Email ou mot de passe incorrect !");
+                req.flash("error2", "Email ou mot de passe incorrect !");
                 return res.redirect('/compte');
             }
     

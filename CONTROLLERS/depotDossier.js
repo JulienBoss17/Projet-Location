@@ -7,10 +7,13 @@ const {upload} = require('../DATABASE/upload');
 const { gfs } = require('../DATABASE/upload.js');
 const mongoose = require("mongoose")
 const { getGridFsBucket } = require('../DATABASE/upload');
+const Chambre = require("../MODELS/Chambres.js")
+
 
 
 exports.depotDossier = async (req, res) => {
-        res.render("PAGES/depotDossier");
+    const chambres = await Chambre.find();
+        res.render("PAGES/depotDossier", {chambres});
   }
   
   exports.uploadFile = async (req, res) => {
@@ -62,9 +65,12 @@ exports.depotDossier = async (req, res) => {
                 });
             }));
 
+            const chambre = await Chambre.findById(req.body.chambre);
+
             const userFiles = new UserFile({
                 userId,
-                files: filesData
+                files: filesData,
+                chambre
             });
 
             await userFiles.save();
@@ -83,13 +89,12 @@ exports.depotDossier = async (req, res) => {
 
 exports.mesfichiers = async (req, res) => {
     try {
-        const userId = req.params.userId;
+
+        const user1 = await User.findById(req.params.userId);
+
+        const userId = req.params.userId;  // Vérifie bien que userId vient de l'URL
 
         const userFiles = await UserFile.find({ userId });
-
-        if (!userFiles || userFiles.length === 0) {
-            return res.render('pages/candidature', { files: [], message: "Aucun fichier trouvé." });
-        }
 
         let allFiles = [];
         userFiles.forEach(doc => {
@@ -98,13 +103,20 @@ exports.mesfichiers = async (req, res) => {
             }
         });
 
-        res.render('pages/candidature', { files: allFiles, message: null });
+        res.render('pages/candidature', { 
+            files: allFiles, 
+            message: null, 
+            userId: userId, // Assure-toi qu'il est bien transmis ici
+            user1: user1, // Assure-toi qu'il est bien transmis ici
+        });
 
     } catch (error) {
         console.error(error);
         res.status(500).send("Erreur serveur");
     }
 };
+
+
 
 
 exports.readPdf = async (req, res) => {
@@ -164,5 +176,101 @@ exports.listFiles = async (req, res) => {
     }
 };
 
+exports.adminUploadFile = async (req, res) => {
+    upload.single('file')(req, res, async (err) => {
+        if (err) {
+            console.error('❌ Erreur Multer:', err);
+            return res.status(500).json({ error: 'Erreur lors de l’upload du fichier' });
+        }
+    
+        if (!req.file) {
+            return res.status(400).json({ error: 'Aucun fichier téléchargé' });
+        }
+    
+        try {
+            const userId = req.params.userId; // Assurez-vous que l'ID de l'utilisateur est passé dans l'URL
+    
+            let userFiles = await UserFile.findOne({ userId });
+    
+            if (!userFiles) {
+                userFiles = new UserFile({ userId, files: [] });
+            }
+    
+            const gridfsBucket = await getGridFsBucket();
+    
+            const uploadStream = gridfsBucket.openUploadStream(req.file.originalname, {
+                contentType: req.file.mimetype
+            });
+    
+            uploadStream.end(req.file.buffer);
+    
+            uploadStream.on('finish', async () => {
+                // Ajouter le fichier au tableau des fichiers existants
+                userFiles.files.push({
+                    fileId: uploadStream.id,
+                    filename: req.file.filename,
+                    originalname: req.file.originalname,
+                    contentType: req.file.mimetype
+                });
+    
+                await userFiles.save();
+    
+                res.redirect(`/mes-fichiers/${userId}`);
+            });
+    
+            uploadStream.on('error', (error) => {
+                console.error("❌ Erreur lors de l'upload GridFS:", error);
+                res.redirect(`/mes-fichiers/${userId}`);
+            });
+    
+        } catch (error) {
+            console.error("❌ Erreur lors de l'upload:", error);
+            res.redirect(`/mes-fichiers/${userId}`);
+        }
+    });    
+}
 
+exports.adminDeleteFile = async (req, res) => {
+    const { fileId } = req.params;
+
+    try {
+        const gridfsBucket = await getGridFsBucket();
+
+        if (!gridfsBucket) {
+            console.error("❌ GridFSBucket non initialisé.");
+            return res.status(500).json({ error: 'Erreur serveur: GridFS non initialisé' });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(fileId)) {
+            console.error("❌ L'ID fourni n'est pas valide:", fileId);
+            return res.status(400).json({ error: 'ID de fichier invalide' });
+        }
+
+        const objectId = new mongoose.Types.ObjectId(fileId);
+
+        // 🔍 Trouver quel utilisateur possède ce fichier
+        const userFile = await UserFile.findOne({ "files.fileId": objectId });
+
+        if (!userFile) {
+            console.error("❌ Aucun fichier trouvé pour cet ID :", fileId);
+            return res.status(404).json({ error: 'Fichier non trouvé' });
+        }
+
+        const userId = userFile.userId; // Récupérer l'ID de l'utilisateur
+
+        // 🔥 Supprimer le fichier de GridFS
+        await gridfsBucket.delete(objectId);
+
+        // 🗑 Supprimer le fichier du tableau dans UserFile
+        await UserFile.updateOne(
+            { userId }, 
+            { $pull: { files: { fileId: objectId } } }
+        );
+
+        res.redirect(`/mes-fichiers/${userId}`); // ✅ Maintenant userId est bien défini
+
+    } catch (error) {
+        console.error('❌ Erreur lors de la suppression du fichier:', error);
+    }
+};
 

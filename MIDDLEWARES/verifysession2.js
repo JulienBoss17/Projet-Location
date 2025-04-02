@@ -3,31 +3,36 @@ const User = require('../MODELS/Users.js');
 function verifySession2() {
     return async (req, res, next) => {
         if (!req.session.userId) {
-            return res.redirect("/compte")
+            return res.redirect("/compte");
         }
 
         try {
-            const user = await User.findById(req.params.userId);
-            const user2 = await User.findById(req.session.userId)
-            
-            if (!user) {
-                return res.redirect("/compte")
+            const user = await User.findById(req.params.userId);  // Locataire
+            const user2 = await User.findById(req.session.userId); // Utilisateur connecté
+
+            if (!user2) {
+                return res.redirect("/compte");
             }
-            
+
+            // ✅ Laisse passer l'admin
+            if (user2.role === "admin") {
+                return next();
+            }
+
+            // ✅ Vérifie si l'utilisateur accède bien à ses propres fichiers
+            if (!user || user._id.toString() !== user2._id.toString()) {
+                return res.redirect("/compte");
+            }
+
             req.user = user;
-            
-            if (user._id.toString() !== user2._id.toString()) {
-                return res.redirect("/compte")
-            }
             next();
-            
 
-
-        }   catch (error) {
+        } catch (error) {
             console.error('Error verifying session:', error);
             res.status(500).json({ message: 'Server error' });
         }
-    }
+    };
 }
+
 
 module.exports = verifySession2;
