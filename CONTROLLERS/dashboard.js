@@ -14,7 +14,7 @@ async function getGridFsBucket() {
 }
 
 exports.dashAdmin = async (req, res) => {
-    const userFiles = await UserFile.find().populate("userId", "nom prenom role");
+    const userFiles = await UserFile.find().populate("userId", "nom prenom role email");
     
     const gridfsBucket = await getGridFsBucket();
     const allFiles = await gridfsBucket.find().toArray();
@@ -203,7 +203,6 @@ exports.assignChambreToLocataire = async (req, res) => {
         // Vérifier si la chambre existe
         const chambreExiste = await Chambre.findById(chambre);
         if (!chambreExiste) {
-            req.flash("error", "Cette chambre n'existe pas.");
             return res.redirect("/dashboardadmin");
         }
 
@@ -216,12 +215,10 @@ exports.assignChambreToLocataire = async (req, res) => {
         // Mettre à jour le statut du dossier
         await UserFile.updateOne({ userId }, { status: "Accepté" });
 
-        req.flash("success", "Le locataire a été accepté et la chambre lui a été assignée.");
         res.redirect("/dashboardadmin");
 
     } catch (error) {
         console.error("❌ Erreur:", error);
-        req.flash("error", "Une erreur est survenue.");
         res.redirect("/dashboardadmin");
     }
 };

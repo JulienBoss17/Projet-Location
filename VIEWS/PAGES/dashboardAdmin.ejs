@@ -73,14 +73,18 @@
                         <% usersWithFiles.forEach(userData => { %>
                             <% if(userData.user.role === "un simple utilisateur") { %>
                             <li>
-                                <div>
-                                <p><strong><%= userData.user.nom %> <%= userData.user.prenom %> </strong>- pour la <%= userData.chambre %></p>
+                                <%= userData.user.email %> <br>
                                 le <%= new Date(userData.files[0].uploadDate).toLocaleDateString("fr-FR") %> à 
-                                    <%= new Date(userData.files[0].uploadDate).toLocaleString("fr-FR", { 
-                                        timeZone: "Europe/Paris", 
-                                        hour: "2-digit", 
-                                        minute: "2-digit" 
-                                      }) %>%>
+                                <%= new Date(userData.files[0].uploadDate).toLocaleString("fr-FR", { 
+                                    timeZone: "Europe/Paris", 
+                                    hour: "2-digit", 
+                                    minute: "2-digit" 
+                                  }) %>%>
+                                <div>
+                                    <p>
+                                        <strong><%= userData.user.nom %> <%= userData.user.prenom %></strong>
+                                        à déposer un dossier de candidature pour la chambre <%= userData.chambre %>.
+                                    </p>
                                 </div>
                                 <div class="user-files">
                                     <ul>
@@ -88,6 +92,8 @@
                                             <br>
                                             <li>
                                                 <strong><%= file.filename %></strong><br>
+                                                <strong>Type :</strong> <%= file.contentType %> <br>
+                                                <strong>Date d'upload :</strong> <%= new Date(file.uploadDate).toLocaleString() %> <br>
                                                 <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
                                             </li>
                                             <% }) %>
@@ -112,6 +118,8 @@
                                     </form>         
                                 </div>
                             </li>
+                            <% } else {%>
+                                <p>Vous n'avez pas de dossier à traiter pour le moment.</p>
                             <% } %>
                         <% }) %>
                     </ul>

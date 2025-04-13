@@ -17,18 +17,27 @@
     <body>
         <%- include('../PARTIALS/navbar') %>
         <div class="container">
-            <h1>Mes Fichiers</h1>
-            <h2><%= user1.nom %> <%= user1.prenom %></h2>
-            <% if(chambreUser) { %>
+            <br>
+            <p>
+                (<%= user1.email %>)
+                <br>
+                <strong><%= user1.nom %> <%= user1.prenom %></strong>
+            </p>
+            <% if(chambreUser !== null) { %>
             <h3><%= chambreUser.nom %></h3>
-            <% } else {%>
-                <h3>Votre dossier n'est pas encore accepté. Si vous n'avez pas de réponse d'ici 15 jours, veuillez considérer que votre demande n'a pas été acceptée.</h3>
             <% } %>
-            <% if (message) { %>
-                <p><%= message %></p>
-            <% } else { %>
+            <% if(files.length > 0 && user1.role !== "locataire") {%>
+                <%= console.log(chambreUser) %>
+                <p>Votre dossier n'est pas encore accepté.</p>
+            <% } %>
+            <% if(userFiles && userFiles.length === 0) { %>
+                <p>Vous n'avez pas encore créer de dossier.</p>
+            <% } %>
+            <% if(userFiles && userFiles.length !== 0) {%>
                 <ul>
+                    <h1>Mes Fichiers</h1>
                     <% files.forEach(file => { %>
+                        <br>
                         <li>
                             <strong>Nom :</strong> <%= file.originalname %> <br>
                             <strong>Type :</strong> <%= file.contentType %> <br>
@@ -43,7 +52,7 @@
                         <hr>
                     <% }) %>
                 </ul>
-            <% } %>
+                <% } %>
         </div>
 
         <% if(user.role === "admin") {%>

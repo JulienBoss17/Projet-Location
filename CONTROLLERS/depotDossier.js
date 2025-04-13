@@ -106,6 +106,7 @@ exports.mesfichiers = async (req, res) => {
         const chambreUser = await Chambre.findById(user1.chambre);
 
         res.render('pages/candidature', { 
+            userFiles: userFiles,
             files: allFiles, 
             message: null, 
             userId: userId, // Assure-toi qu'il est bien transmis ici
