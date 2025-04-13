@@ -52,21 +52,69 @@
                         <hr>
                     <% }) %>
                 </ul>
-                <% } %>
+                <% } %>       
+        </div>
+        <div class="container">
+            <% if(quittances && quittances.length > 0) { %>
+                <ul>
+                    <h1>Mes Quittances</h1>
+                    <% quittances.forEach(quittance => { %>
+                        <li>
+                            <strong>Mois :</strong> <%= quittance.mois %>/<%= quittance.annee %><br>
+                            <strong>Nom :</strong> <%= quittance.originalname %><br>
+                            <strong>Date d'upload :</strong> <%= new Date(quittance.uploadDate).toLocaleDateString() %><br>
+                            <a href="/files/<%= quittance.fileId %>" target="_blank">Voir la quittance</a>
+                            <% if(user.role === "admin") { %>
+                                <form action="/admin/delete/<%= quittance.fileId %>" method="POST" style="display:inline;">
+                                    <button type="submit" class="delete-button">Supprimer</button>
+                                </form>
+                            <% } %>
+                        </li>
+                        <hr>
+                    <% }) %>
+                </ul>
+            <% } %>
         </div>
 
-        <% if(user.role === "admin") {%>
-
+        <% if(user.role === "admin") { %>
             <div class="sub-container">
                 <h2>Ajouter un fichier :</h2>
                 <form action="/admin/upload/<%= userId %>" method="POST" enctype="multipart/form-data">
                     <label for="file">Sélectionner un fichier :</label><br>
                     <input type="file" id="file" name="file" required><br><br>
+        
+                    <label for="type">Type de fichier :</label><br>
+                    <select id="type" name="type" onchange="toggleQuittanceFields()" required>
+                        <option value="">-- Choisir --</option>
+                        <option value="fichier">Fichier classique</option>
+                        <option value="quittance">Quittance de loyer</option>
+                    </select><br><br>
+        
+                    <div id="quittanceFields" style="display: none;">
+                        <label for="mois">Mois :</label>
+                        <select name="mois" id="mois">
+                            <% for(let i=1; i<=12; i++) { %>
+                                <option value="<%= i %>"><%= i %></option>
+                            <% } %>
+                        </select><br>
+        
+                        <label for="annee">Année :</label>
+                        <input type="number" name="annee" id="annee" value="<%= new Date().getFullYear() %>" min="2000" max="2100"><br><br>
+                    </div>
+        
                     <input type="submit" value="Uploader le fichier">
                 </form>
             </div>
         <% } %>
+        
         <%- include('../PARTIALS/footer') %>
+        <script>
+            function toggleQuittanceFields() {
+                const type = document.getElementById('type').value;
+                const fields = document.getElementById('quittanceFields');
+                fields.style.display = type === 'quittance' ? 'block' : 'none';
+            }
+        </script>
     </body>
     </html>
     

@@ -89,29 +89,37 @@ exports.depotDossier = async (req, res) => {
 
 exports.mesfichiers = async (req, res) => {
     try {
-
-        const user1 = await User.findById(req.params.userId);
-
-        const userId = req.params.userId;  // Vérifie bien que userId vient de l'URL
-
+        const userId = req.params.userId;
+        const user1 = await User.findById(userId);
+        const chambreUser = await Chambre.findById(user1.chambre);
         const userFiles = await UserFile.find({ userId });
 
         let allFiles = [];
+        let allQuittances = [];
+
         userFiles.forEach(doc => {
             if (doc.files && doc.files.length > 0) {
                 allFiles = allFiles.concat(doc.files);
             }
+            if (doc.quittances && doc.quittances.length > 0) {
+                allQuittances = allQuittances.concat(doc.quittances);
+            }
         });
 
-        const chambreUser = await Chambre.findById(user1.chambre);
+        // 🗂️ Tri des quittances du plus récent au plus ancien
+        allQuittances.sort((a, b) => {
+            if (a.annee !== b.annee) return b.annee - a.annee;
+            return b.mois - a.mois;
+        });
 
         res.render('pages/candidature', { 
-            userFiles: userFiles,
+            userFiles,
             files: allFiles, 
+            quittances: allQuittances, // 🔥 On passe les quittances à la vue
             message: null, 
-            userId: userId, // Assure-toi qu'il est bien transmis ici
-            user1: user1, // Assure-toi qu'il est bien transmis ici
-            chambreUser: chambreUser // Assure-toi qu'il est bien transmis ici
+            userId,
+            user1,
+            chambreUser
         });
 
     } catch (error) {
@@ -119,6 +127,7 @@ exports.mesfichiers = async (req, res) => {
         res.status(500).send("Erreur serveur");
     }
 };
+
 
 
 
@@ -186,53 +195,69 @@ exports.adminUploadFile = async (req, res) => {
             console.error('❌ Erreur Multer:', err);
             return res.status(500).json({ error: 'Erreur lors de l’upload du fichier' });
         }
-    
+
         if (!req.file) {
             return res.status(400).json({ error: 'Aucun fichier téléchargé' });
         }
-    
+
         try {
-            const userId = req.params.userId; // Assurez-vous que l'ID de l'utilisateur est passé dans l'URL
-    
+            const userId = req.params.userId;
+            const { type, mois, annee } = req.body; // Ajout du type (quittance ou non)
+
             let userFiles = await UserFile.findOne({ userId });
-    
+
             if (!userFiles) {
-                userFiles = new UserFile({ userId, files: [] });
+                userFiles = new UserFile({ userId, files: [], quittances: [] });
             }
-    
+
             const gridfsBucket = await getGridFsBucket();
-    
+
             const uploadStream = gridfsBucket.openUploadStream(req.file.originalname, {
                 contentType: req.file.mimetype
             });
-    
+
             uploadStream.end(req.file.buffer);
-    
+
             uploadStream.on('finish', async () => {
-                // Ajouter le fichier au tableau des fichiers existants
-                userFiles.files.push({
+                const fileData = {
                     fileId: uploadStream.id,
                     filename: req.file.filename,
                     originalname: req.file.originalname,
-                    contentType: req.file.mimetype
-                });
-    
+                    contentType: req.file.mimetype,
+                    uploadDate: new Date()
+                };
+
+                if (type === 'quittance') {
+                    if (!mois || !annee) {
+                        return res.status(400).json({ error: 'Mois et année requis pour une quittance' });
+                    }
+
+                    userFiles.quittances.push({
+                        ...fileData,
+                        mois: parseInt(mois),
+                        annee: parseInt(annee)
+                    });
+                } else {
+                    userFiles.files.push(fileData);
+                }
+
                 await userFiles.save();
-    
+
                 res.redirect(`/mes-fichiers/${userId}`);
             });
-    
+
             uploadStream.on('error', (error) => {
                 console.error("❌ Erreur lors de l'upload GridFS:", error);
                 res.redirect(`/mes-fichiers/${userId}`);
             });
-    
+
         } catch (error) {
             console.error("❌ Erreur lors de l'upload:", error);
-            res.redirect(`/mes-fichiers/${userId}`);
+            res.redirect(`/mes-fichiers/${req.params.userId}`);
         }
-    });    
-}
+    });
+};
+
 
 exports.adminDeleteFile = async (req, res) => {
     const { fileId } = req.params;
@@ -252,29 +277,41 @@ exports.adminDeleteFile = async (req, res) => {
 
         const objectId = new mongoose.Types.ObjectId(fileId);
 
-        // 🔍 Trouver quel utilisateur possède ce fichier
-        const userFile = await UserFile.findOne({ "files.fileId": objectId });
+        // 🔍 Trouver si c'est une quittance ou un fichier normal
+        const userFile = await UserFile.findOne({
+            $or: [
+                { "files.fileId": objectId },
+                { "quittances.fileId": objectId }
+            ]
+        });
 
         if (!userFile) {
             console.error("❌ Aucun fichier trouvé pour cet ID :", fileId);
             return res.status(404).json({ error: 'Fichier non trouvé' });
         }
 
-        const userId = userFile.userId; // Récupérer l'ID de l'utilisateur
+        const userId = userFile.userId;
 
         // 🔥 Supprimer le fichier de GridFS
         await gridfsBucket.delete(objectId);
 
-        // 🗑 Supprimer le fichier du tableau dans UserFile
-        await UserFile.updateOne(
-            { userId }, 
-            { $pull: { files: { fileId: objectId } } }
-        );
+        // 🗑 Supprimer dans le bon tableau
+        const pullQuery = {
+            $pull: {
+                files: { fileId: objectId },
+                quittances: { fileId: objectId }
+            }
+        };
 
-        res.redirect(`/mes-fichiers/${userId}`); // ✅ Maintenant userId est bien défini
+        await UserFile.updateOne({ userId }, pullQuery);
+
+        res.redirect(`/mes-fichiers/${userId}`);
 
     } catch (error) {
         console.error('❌ Erreur lors de la suppression du fichier:', error);
+        res.status(500).json({ error: 'Erreur serveur lors de la suppression du fichier' });
     }
 };
+
+
 
