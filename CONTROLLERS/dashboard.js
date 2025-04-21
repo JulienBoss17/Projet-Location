@@ -102,7 +102,7 @@ exports.casses = async (req, res) => {
 
         await newCasse.save();
 
-        req.flash("success", "Casse enregistrée avec succès !");
+        req.flash("success", "Message enregistrée avec succès !");
         res.redirect("/dashboardlocataire");
 
     } catch (err) {
