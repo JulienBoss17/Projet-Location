@@ -12,5 +12,19 @@
     <%- include('../PARTIALS/year') %>
 </section>
 <%- include('../PARTIALS/footer') %>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+if (sessionStorage.getItem("scrollPosition")) {
+    window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
+    sessionStorage.removeItem("scrollPosition");
+}
+
+document.querySelectorAll("form").forEach(form => {
+    form.addEventListener("submit", function () {
+        sessionStorage.setItem("scrollPosition", window.scrollY);
+    });
+});
+});
+</script>
 </body>
 </html>

@@ -27,6 +27,11 @@ router.put("/editchambre/:id", verifySession2(),dashboardController.updateChambr
 
 router.post("/delete-files", verifySession2(),dashboardController.deleteFiles);
 
-router.post("/admin/valider-locataire/:userId", dashboardController.assignChambreToLocataire);
+router.post("/admin/valider-locataire/:userId", verifySession2(),dashboardController.assignChambreToLocataire);
+
+router.post("/admin/remove-locataire/:userId", verifySession2(),dashboardController.removeLocataire);
+
+
+
 
 module.exports = router;

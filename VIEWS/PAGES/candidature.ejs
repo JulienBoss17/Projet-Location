@@ -24,18 +24,18 @@
                 <strong><%= user1.nom %> <%= user1.prenom %></strong>
             </p>
             <% if(chambreUser !== null) { %>
-            <h3><%= chambreUser.nom %></h3>
+                <h3><%= chambreUser.nom %></h3>
+                <% } %>
+            <% if(user1.role === "un simple utilisateur") { %>
+                <% if(files.length > 0 && user1.role !== "locataire") {%>
+                    <p>Votre dossier n'est pas encore accepté.</p>
+                <% } %>
+                <% if(userFiles && userFiles.length === 0) { %>
+                    <p>Vous n'avez pas encore créer de dossier.</p>
+                <% } %>
             <% } %>
-            <% if(files.length > 0 && user1.role !== "locataire") {%>
-                <%= console.log(chambreUser) %>
-                <p>Votre dossier n'est pas encore accepté.</p>
-            <% } %>
-            <% if(userFiles && userFiles.length === 0) { %>
-                <p>Vous n'avez pas encore créer de dossier.</p>
-            <% } %>
-            <% if(userFiles && userFiles.length !== 0) {%>
+            <% if(userFiles.length !== 0) {%>
                 <ul>
-                    <h1>Mes Fichiers</h1>
                     <% files.forEach(file => { %>
                         <br>
                         <li>
@@ -54,8 +54,8 @@
                 </ul>
                 <% } %>       
         </div>
-        <div class="container">
-            <% if(quittances && quittances.length > 0) { %>
+        <% if(quittances && quittances.length > 0) { %>
+            <div class="container">
                 <ul>
                     <h1>Mes Quittances</h1>
                     <% quittances.forEach(quittance => { %>
@@ -73,8 +73,8 @@
                         <hr>
                     <% }) %>
                 </ul>
+            </div>
             <% } %>
-        </div>
 
         <% if(user.role === "admin") { %>
             <div class="sub-container">
@@ -104,6 +104,7 @@
         
                     <input type="submit" value="Uploader le fichier">
                 </form>
+                <a href="/dashboardadmin">Retour au Tableau de bord</a>
             </div>
         <% } %>
         
@@ -114,6 +115,18 @@
                 const fields = document.getElementById('quittanceFields');
                 fields.style.display = type === 'quittance' ? 'block' : 'none';
             }
+            document.addEventListener("DOMContentLoaded", function () {
+            if (sessionStorage.getItem("scrollPosition")) {
+                window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
+                sessionStorage.removeItem("scrollPosition");
+            }
+    
+            document.querySelectorAll("form").forEach(form => {
+                form.addEventListener("submit", function () {
+                    sessionStorage.setItem("scrollPosition", window.scrollY);
+                });
+            });
+        });
         </script>
     </body>
     </html>

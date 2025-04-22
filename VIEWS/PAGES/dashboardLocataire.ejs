@@ -15,7 +15,10 @@
 
         <h2>Locataire <%= user.nom %> <%= user.prenom %></h2>
         <h3>Dashboard Locataire</h3>
-    
+        
+        <div class="sub-container">
+            <a href="/mes-fichiers/<%= user._id %>">Mon Espace</a>  
+        </div>  
 
         <% if(annonces) { %>
             <% annonces.forEach(annonce => { %>
@@ -43,14 +46,22 @@
             <% if (success_msg) { %>
                 <div class="flash-message success"><%= success_msg %></div>
                 <% } %>
-            </div>
-            
-            <div class="sub-container">
-                <a href="/mes-fichiers/<%= user._id %>">Mon contrat de location</a>  
-                <!-- <a href="#">Poster un avis</a> -->
-                <!-- <p>si la date de fin de bail est dépassée, possibilité de poster un avis (anonyme ou non)</p> -->
-            </div>        
+            </div>      
     </div>
     <%- include('../PARTIALS/footer') %>
+    <script>
+                document.addEventListener("DOMContentLoaded", function () {
+            if (sessionStorage.getItem("scrollPosition")) {
+                window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
+                sessionStorage.removeItem("scrollPosition");
+            }
+    
+            document.querySelectorAll("form").forEach(form => {
+                form.addEventListener("submit", function () {
+                    sessionStorage.setItem("scrollPosition", window.scrollY);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

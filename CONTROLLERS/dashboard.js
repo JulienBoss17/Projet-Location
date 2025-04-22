@@ -63,7 +63,7 @@ exports.updateChambre = async (req, res) => {
     const chambreId = req.params.id
     try{
         const chambre = await Chambre.findByIdAndUpdate(chambreId, req.body,  {new: true})
-        req.flash("success2", `${req.body.nom} modifié avec succès ! Vous pouvez retourner au Dashboard.`);
+        req.flash("success2", `${req.body.nom} modifié avec succès ! Vous pouvez retourner au tableau de bord.`);
         res.redirect("/updatechambres/" + chambreId);
     }
     catch(err) {
@@ -212,8 +212,51 @@ exports.assignChambreToLocataire = async (req, res) => {
             chambre: chambre
         });
 
-        // Mettre à jour le statut du dossier
-        await UserFile.updateOne({ userId }, { status: "Accepté" });
+        res.redirect("/dashboardadmin");
+
+    } catch (error) {
+        console.error("❌ Erreur:", error);
+        res.redirect("/dashboardadmin");
+    }
+};
+
+exports.removeLocataire = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Récupération des fichiers liés à l'utilisateur
+        const userFiles = await UserFile.findOne({ userId });
+
+        if (userFiles) {
+            const gridfsBucket = await getGridFsBucket();
+
+            for (const file of userFiles.files) {
+                try {
+                    await gridfsBucket.delete(new mongoose.Types.ObjectId(file.fileId));
+                } catch (err) {
+                    console.error(`Erreur lors de la suppression du fichier ${file.fileId}`, err);
+                }
+            }
+
+            if (userFiles.quittances && userFiles.quittances.length > 0) {
+                for (const quittance of userFiles.quittances) {
+                    try {
+                        await gridfsBucket.delete(new mongoose.Types.ObjectId(quittance.fileId));
+                    } catch (err) {
+                        console.error(`Erreur lors de la suppression de la quittance ${quittance.fileId}`, err);
+                    }
+                }
+            }
+            
+
+            await UserFile.deleteOne({ userId });
+        }
+
+        // Mise à jour de l'utilisateur
+        await User.findByIdAndUpdate(userId, {
+            role: "un simple utilisateur",
+            chambre: null
+        });
 
         res.redirect("/dashboardadmin");
 
@@ -222,4 +265,5 @@ exports.assignChambreToLocataire = async (req, res) => {
         res.redirect("/dashboardadmin");
     }
 };
+
 

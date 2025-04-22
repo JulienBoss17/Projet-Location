@@ -17,14 +17,20 @@
             <% if (error_msg2) {%>
                 <div class="flash-message error"><%= error_msg2%></div>
             <% } %>  
-            <a href="/showuser/<%= user._id  %>">Profil</a>
+            <a href="/showuser/<%= user._id  %>">Mon Profil</a>
+            <% if (user.role === "un simple utilisateur") {%>
+            <a href="/depotdossier">Je dépose mon dossier</a>   
+            <a href="/mes-fichiers/<%= user._id %>">Mon Espace</a>  
+            <% } %>
+            <% if(user.role === "locataire") {%>
+                <a href="/dashboardlocataire">Mon Tableau de bord</a>
+            <% } %>
+            <% if(user.role === "admin") {%>
+                <a href="/dashboardadmin">Mon Tableau de bord</a>
+            <% } %>
             <form action="/logout" method="POST">
                 <button type="submit">Déconnexion</button>
             </form>
-            <% if (user.role === "un simple utilisateur") {%>
-            <a href="/depotdossier">Je dépose mon dossier</a>   
-            <a href="/mes-fichiers/<%= user._id %>">Mes fichiers</a>  
-            <% } %>
         </div>
     <% } else { %>
         <div class="container">
@@ -67,5 +73,19 @@
         </div>
     <% } %>
     <%- include('../PARTIALS/footer') %>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    if (sessionStorage.getItem("scrollPosition")) {
+        window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
+        sessionStorage.removeItem("scrollPosition");
+    }
+
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", function () {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
+    });
+});
+</script>
 </body>
 </html>
