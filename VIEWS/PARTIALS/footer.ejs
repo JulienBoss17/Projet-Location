@@ -3,30 +3,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.container {
-  flex: 1; /* Pousse le footer vers le bas */
-  text-align: center;
-  padding: 20px;
+  
 }
 
 footer {
-  background: #333;
-  color: white;
-  text-align: center;
-  padding: 10px;
-}
-
-    footer {
     margin-top: 100px;
-    background-color: #333;
+    background-color: #e6e6e6;
+        box-shadow: 2pc 0px 5px rgba(0, 0, 0, 0.288); /* Ombre douce pour marquage */
+        border-top: 1px solid #E8D8C3; /* Ligne fine sous la navbar */
     color: white;
     padding: 20px;
     text-align: center;
@@ -34,6 +18,32 @@ footer {
     bottom: 0;
     width: 100%;
     margin: 0;
+    color: black;
+    flex: 1; /* pousse le footer vers le bas */
+}
+
+/* Responsive : petits écrans (mobiles) */
+@media (max-width: 600px) {
+  footer {
+    font-size: 0.85rem;
+    padding: 15px;
+  }
+}
+
+/* Responsive : tablettes */
+@media (min-width: 601px) and (max-width: 1024px) {
+  footer {
+    font-size: 0.95rem;
+    padding: 18px;
+  }
+}
+
+/* Grands écrans */
+@media (min-width: 1025px) {
+  footer {
+    font-size: 1rem;
+    padding: 20px;
+  }
 }
 </style>
 <div>

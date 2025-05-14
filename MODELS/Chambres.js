@@ -14,7 +14,8 @@ const ChambreSchema = mongoose.Schema({
   dressing: {type: Number},
   multi_prises: {type: Number},
   oreiller: {type: Number},
-  plaid: {type: Number}
+  plaid: {type: Number},
+  price: {type: Number},
 })
 
 const Chambre = mongoose.model('chambres', ChambreSchema)

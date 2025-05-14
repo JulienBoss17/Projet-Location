@@ -1,0 +1,302 @@
+/* Général */
+
+html {
+    scrollbar-width: none; /* Firefox */
+}
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: #0d4545;
+    margin: 0;
+    padding: 0;
+    padding-top: 23px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #2c2c2c;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px;
+  }
+  
+  /* Titres */
+  h2, h4, h5 {
+    color: #0d4545;
+  }
+  
+  /* Cartes / sections */
+  .sub-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .sub-container li {
+    list-style: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  textarea {
+    width: 100%;
+    max-width: 600px;
+    height: 150px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none; /* autorise seulement le redimensionnement vertical */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  textarea:focus {
+    border-color: #0d4545;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(13, 69, 69, 0.2)
+    ;
+  }
+  
+  
+  /* Formulaires */
+  input[type="text"], 
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  input[type="submit"],
+  .container a,
+  button {
+    background-color: #0d4545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0px;;
+    text-align: center;
+  }
+  input[type="submit"]:hover,
+  .container a:hover,
+  button:hover {
+    background-color: #0d4545cc;
+  }
+  
+  .btn-danger {
+    background-color: #e74c3c;
+  }
+  .btn-danger:hover {
+    background-color: #c0392b;
+  }
+
+  .chambres {
+    text-align: center;
+  }
+
+  #tarif {
+    text-align: center;
+  }
+
+  .annonce {
+    background-color: #f0f8f8;
+    border: 1px solid #cce0e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .annonce:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .annonce h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #0d4545;
+  }
+  
+  .annonce li.sub-container {
+    list-style: none;
+    padding: 10px 0;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+  }
+  
+  .annonce strong {
+    font-size: 1.2em;
+    color: #222;
+  }
+  
+  .annonce h5 {
+    font-weight: normal;
+    color: #444;
+    margin: 5px 0;
+  }
+  
+  .annonce p {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    text-align: right;
+    font-style: italic;
+  }
+
+  .container h2 {
+  text-align: center;
+  color: #0d4545;
+  margin-bottom: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form label {
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.form input[type="file"],
+.form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 1rem;
+}
+
+.form button {
+  background-color: #0d4545;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 20px;
+}
+
+.form button:hover {
+  background-color: #0b3a3a;
+}
+  
+
+/* ========== RESPONSIVE ENHANCEMENTS ========== */
+
+/* Petits écrans (mobiles) */
+@media (max-width: 576px) {
+  body {
+    padding-top: 15px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  h2, h3, h4 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .sub-container {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  button,
+  input[type="submit"],
+  .container a {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .form {
+    gap: 10px;
+  }
+
+  .form label,
+  .form input,
+  .form select,
+  .form textarea {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .annonce {
+    padding: 15px;
+  }
+}
+
+/* Tablettes */
+@media (min-width: 577px) and (max-width: 991px) {
+  .container {
+    padding: 25px;
+  }
+
+  .sub-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form {
+    gap: 20px;
+  }
+
+  .form input,
+  .form select,
+  .form textarea {
+    font-size: 1rem;
+  }
+}
+
+/* Grands écrans */
+@media (min-width: 992px) {
+  .form {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .form > * {
+    flex: 1 1 45%;
+  }
+
+  .form button {
+    width: auto;
+    align-self: flex-start;
+  }
+
+  .sub-container {
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+  }
+
+  .sub-container > * {
+    flex: 1;
+  }
+}

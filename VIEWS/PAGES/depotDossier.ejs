@@ -4,43 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dépôt de dossier</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styledashboard.css">
 </head>
 <body>
+        <style>
+        .container {
+            margin-bottom:150px;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
     <%- include('../PARTIALS/navbar') %>
+    <br><br>
     <div class="container">
-        <h2>Dépôt de dossier</h2>
-        <form action="/upload" method="POST" enctype="multipart/form-data" class="sub-container">
-            <input type="hidden" name="userId" value="<%= user._id %>">
-        
-            <label>Pièce d'identité :</label>
-            <input type="file" name="files" required>
-        
-            <label>Justificatif de domicile / Bon paiement loyers :</label>
-            <input type="file" name="files" required>
-        
-            <label>Justificatifs de situation professionnelle :</label>
-            <input type="file" name="files" required>
-        
-            <label>Justificatifs de ressources :</label>
-            <input type="file" name="files" required>
-        
-            <label>Avis d'imposition :</label>
-            <input type="file" name="files" required>
-        
-            <label>Les justificatifs du ou des garant(s) :</label>
-            <input type="file" name="files" required>
+        <div class="sub-container container">
+            <h2>Dépôt de dossier</h2>
 
-            <label for="chambre">Choisissez votre chambre :</label>
+            <form action="/upload" method="POST" enctype="multipart/form-data" class="form">
+                <input type="hidden" name="userId" value="<%= user._id %>">
             
-            <select name="chambre" id="chambre" required>
-                <% chambres.forEach(chambre => { %>
-                    <option value="<%= chambre._id %>"><%= chambre.nom %></option>
-                <% }) %>
-            </select>
-        
-            <button type="submit">Soumettre</button>
-        </form>
+                <label>Pièce d'identité :</label>
+                <input type="file" name="files" required>
+            
+                <label>Justificatif de domicile / Bon paiement loyers :</label>
+                <input type="file" name="files" required>
+            
+                <label>Justificatifs de situation professionnelle :</label>
+                <input type="file" name="files" required>
+            
+                <label>Justificatifs de ressources :</label>
+                <input type="file" name="files" required>
+            
+                <label>Avis d'imposition :</label>
+                <input type="file" name="files" required>
+            
+                <label>Les justificatifs du ou des garant(s) :</label>
+                <input type="file" name="files" required>
+    
+                <label for="chambre">Choisissez votre chambre :</label>
+                
+                <select name="chambre" id="chambre" required>
+                    <% chambres.forEach(chambre => { %>
+                        <option value="<%= chambre._id %>"><%= chambre.nom %></option>
+                    <% }) %>
+                </select>
+            
+                <button type="submit">Soumettre</button>
+            </form>
+        </div>
     </div>
     <%- include('../PARTIALS/footer') %>
     <script>

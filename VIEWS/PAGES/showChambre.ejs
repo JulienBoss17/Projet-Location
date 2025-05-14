@@ -3,29 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styledashboard.css">
     <title><%= chambre.nom %></title>
 </head>
 <body>
     <%- include('../PARTIALS/navbar') %>
+    <br><br>
     <div class="container">
-        <p><strong>Status : </strong>
-            <% if (chambre.disponibilite == true) { %>
-                <span style="color: green;">Disponible</span>
-            <% } else { %>
-                <span style="color: red;">Non disponible</span>
+        <div class="sub-container">
+            <p><strong><%= chambre.nom %> située au <%= chambre.position %></strong></p>
+            <p><strong>Status : </strong>
+                <% if (chambre.disponibilite == true) { %>
+                    <span>Disponible</span>
+                <% } else { %>
+                    <span>Non disponible</span>
+                <% } %>
+            </p>
+            <br><br>
+            <% if (chambre.nom == "Chambre 4") { %>
+                <img src="/images/chambre4.jpeg" alt="Chambre 4" width="500px" height="auto">
+            <% } else if (chambre.nom == "Chambre 10") { %>
+                <img src="/images/chambre10.jpeg" alt="Chambre 10" width="500px" height="auto">
+            <% } else if (chambre.nom == "Chambre 14") { %>
+                <img src="/images/chambre14.jpeg" alt="Chambre 14" width="500px" height="auto">
+            <% } else if (chambre.nom == "Chambre 15") { %>
+                <img src="/images/chambre15.jpeg" alt="Chambre 15" width="500px" height="auto">
             <% } %>
-        </p>
-        <p><strong><%= chambre.nom %> situé au <%= chambre.position %></strong></p>
-        <% if (chambre.nom == "Chambre 4") { %>
-            <img src="/images/chambre4.jpeg" alt="Chambre 4" width="500px" height="auto">
-        <% } else if (chambre.nom == "Chambre 10") { %>
-            <img src="/images/chambre10.jpeg" alt="Chambre 10" width="500px" height="auto">
-        <% } else if (chambre.nom == "Chambre 14") { %>
-            <img src="/images/chambre14.jpeg" alt="Chambre 14" width="500px" height="auto">
-        <% } else if (chambre.nom == "Chambre 15") { %>
-            <img src="/images/chambre15.jpeg" alt="Chambre 15" width="500px" height="auto">
-        <% } %>
+        </div>
         <div class="sub-container">
             <p><strong>Confort :</strong></p>
             <p>Volets : <%= chambre.volets %></p>
@@ -41,7 +45,8 @@
         </div>
         <div class="sub-container">
             <% if(user) { %>
-                <h3>Tarif : "chambre.tarif" a ajouter</h3>
+                <strong id="tarif">Tarif : <%= chambre.price %> € charges comprises.</strong>
+                <br><br>
                 <a href="/depotdossier">Je dépose mon dossier</a>
             <% } else { %>
                 <a href="/compte">Je dépose mon dossier</a>

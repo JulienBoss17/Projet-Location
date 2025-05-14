@@ -7,24 +7,91 @@
     <title>Bienvenue</title>
 </head>
 <body>
-    <%- include('../PARTIALS/navbar') %>
-<section>
-    <%- include('../PARTIALS/year') %>
-</section>
-<%- include('../PARTIALS/footer') %>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-if (sessionStorage.getItem("scrollPosition")) {
-    window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
-    sessionStorage.removeItem("scrollPosition");
-}
+        <%- include('../PARTIALS/navbar') %>
+        <%- include('../PARTIALS/year') %>
+        <div class="div-dossier">
+            <div class="dossier">
+                <a href="/depotdossier" id="dossier">Je dépose mon dossier</a> 
+            </div>
+        </div>
+        <br><br>
+        <section>
+        <h3>Nos Partenaires</h3>
+        <div class="section-grid">
+            <div class="section-card">
+            <img src="/images/logo1.png" alt="Partenaire 1">
+            <h2>Agence XYZ</h2>
+            <p>Spécialiste en gestion locative, partenaire depuis 2018 pour l'accompagnement des jeunes actifs.</p>
+            </div>
+            <div class="section-card">
+            <img src="/images/logo2.png" alt="Partenaire 2">
+            <h2>ImmoPlus</h2>
+            <p>Réseau d'agences immobilières locales, nous aide à sélectionner les meilleures offres.</p>
+            </div>
+        </div>
+        </section>
 
-document.querySelectorAll("form").forEach(form => {
-    form.addEventListener("submit", function () {
-        sessionStorage.setItem("scrollPosition", window.scrollY);
+        <section>
+        <h3>Infos Pratiques</h3>
+        <div class="section-grid">
+            <div class="section-card">
+            <h2>Documents à fournir</h2>
+            <ul>
+                <li>Pièce d'identité</li>
+                <li>Justificatif de domicile / Bon paiement loyers</li>
+                <li>Justificatifs de situation professionnelle</li>
+                <li>Justificatifs de ressources</li>
+                <li>Avis d'imposition</li>
+                <li>Les justificatifs du ou des garant(s)</li>
+            </ul>
+            </div>
+            <div class="section-card container">
+            <h2>Accès</h2>
+            <p>🚉 À 5 minutes de la gare<br>🚋 Tram Ligne 2 - arrêt "Université"</p>
+            </div>
+        </div>
+        </section>
+
+        <section>
+        <h3>Foire Aux Questions</h3>
+        <div class="section-grid">
+            <div class="section-card">
+            <h2>Peut-on visiter sans RDV ?</h2>
+            <p>❌ Non, les visites se font uniquement sur rendez-vous via notre plateforme.</p>
+            </div>
+            <div class="section-card">
+            <h2>Les logements sont-ils APL ?</h2>
+            <p>✅ Tous les logements sont éligibles aux APL via la CAF.</p>
+            </div>
+            <div class="section-card">
+            <h2>Les animaux sont-ils acceptés ?</h2>
+            <p>🐕 Non, les animaux ne sont pas autorisés dans nos logements partagés.</p>
+            </div>
+        </div>
+        </section>
+
+        <section>
+        <h3>Contact</h3>
+        <div class="section-contact">
+            <h2>Une question ou un besoin spécifique ?</h2>
+            <p>📧 Écrivez-nous à <a href="mailto:contact@logementetudiant.fr">contact@logementetudiant.fr</a></p>
+            <p>📍 12 rue de la Résidence, 75000 Paris</p>
+        </div>
+</section>
+        <%- include('../PARTIALS/footer') %>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    if (sessionStorage.getItem("scrollPosition")) {
+        window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
+        sessionStorage.removeItem("scrollPosition");
+    }
+
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", function () {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
     });
-});
-});
-</script>
+    });
+    </script>
 </body>
 </html>

@@ -3,41 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styledashboard.css">
     <title>Dashboard <%= user.role %></title>
 </head>
 <body>
     <style>
-
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            text-align: center;
+        }
     </style>
     <%- include('../PARTIALS/navbar') %>
+    <br><br>
     <div class="container">
 
-        <h2>Locataire <%= user.nom %> <%= user.prenom %></h2>
-        <h3>Dashboard Locataire</h3>
-        
         <div class="sub-container">
-            <a href="/mes-fichiers/<%= user._id %>">Mon Espace</a>  
-        </div>  
-
-        <% if(annonces) { %>
-            <% annonces.forEach(annonce => { %>
-                <div class="sub-container">
-                    <h3>Dernière annonce :</h3>
-                        <li class="sub-container">
-                            <strong><%= annonce.titre %></strong>
-                            <h5><%= annonce.description %></h5>
-                            <p><%= annonce.userId.prenom %> <%= annonce.userId.nom %> : <%= new Date(annonce.dateAnnonce).toLocaleDateString('fr-FR') %></p>
-                        </li>
+            <h2>Locataire <%= user.nom %> <%= user.prenom %></h2>
+                <p>Bienvenue sur votre <strong>Tableau De Bord Locataire .</strong></p>
+                <br>
+                <a href="/mes-fichiers/<%= user._id %>">Mon Espace</a>  
+        </div>
+        <div class="sub-container">
+    
+            <% if(annonces) { %>
+                <% annonces.forEach(annonce => { %>
+                    <div class= "annonce ">
+                        <h3>Dernière annonce :</h3>
+                            <li class="sub-container">
+                                <strong><%= annonce.titre %></strong>
+                                <h5><%= annonce.description %></h5>
+                            </li>
+                            <p> <%= annonce.userId.prenom %> <%= annonce.userId.nom %> : <%= new Date(annonce.dateAnnonce).toLocaleDateString('fr-FR') %></p>
                     </div>    
-                <% }) %>
-        <% } %>
+                    <% }) %>
+            <% } %>
+
+        </div>
+
 
         <div class="sub-container">
-            <h4>Envoyer un message</h4>
+            <h4>Envoyer un message :</h4>
             <form action="/casses/<%= user._id %>" method="POST">
-                
-                <label for="description">Note :</label><br>
+                <br>
                 <textarea id="description" name="description" rows="4" cols="50" required></textarea>
                 <br><br>
                 
@@ -48,6 +59,7 @@
                 <% } %>
             </div>      
     </div>
+    <br><br>
     <%- include('../PARTIALS/footer') %>
     <script>
                 document.addEventListener("DOMContentLoaded", function () {

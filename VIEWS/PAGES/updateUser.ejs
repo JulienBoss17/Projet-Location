@@ -3,23 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styledashboard.css">
     <title>Modification de l'utilisateur <%= user.nom %></title>
 </head>
 <body>
+    <style>
+        .container {
+            margin-top:100px;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
     <%- include('../PARTIALS/navbar') %>
     <div class="container">
-        <h1>Modification de l'utilisateur <%= user.nom %></h1>
-        <form action="/edituser/<%= user._id %>?_method=PUT" method="POST">
-            <label for="nom">Nom :</label>
-            <input type="text" id="nom" name="nom" value="<%= user.nom %>" required>
+        <div class="sub-container">
 
-            <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" name="prenom" value="<%= user.prenom %>" required>
-
-            <button type="submit">Mettre à jour</button>
-        </form>
-        <a href="/compte">Revenir au compte</a> 
+            <h1>Modification de l'utilisateur <%= user.nom %></h1>
+            <form action="/edituser/<%= user._id %>?_method=PUT" method="POST">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" value="<%= user.nom %>" required>
+    
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" value="<%= user.prenom %>" required>
+    
+                <button type="submit">Mettre à jour</button>
+            </form>
+            <br><br>
+            <a href="/showuser/<%= user._id  %>">Revenir au compte</a> 
+        </div>
     </div>
     <%- include('../PARTIALS/footer') %>
     <script>
@@ -36,5 +53,6 @@
     });
 });
 </script>
+<br><br>
 </body>
 </html>

@@ -1,9 +1,15 @@
 <style>
 
-    nav {
-        padding-bottom: 60px;
-        z-index: 1000; 
-    }
+nav {
+    z-index: 1000; /* Vous pouvez augmenter si nécessaire */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #e6e6e6;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.288); /* Ombre douce pour marquage */
+    border-bottom: 1px solid #E8D8C3; /* Ligne fine sous la navbar */
+}
 
     nav ul {
         position: fixed;
@@ -11,7 +17,9 @@
         list-style-type: none;
         padding: 0;
         overflow: hidden;
-        background-color: #333;
+        background-color: #e6e6e6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.288); /* Ombre douce pour marquage */
+        border-bottom: 1px solid #E8D8C3; /* Ligne fine sous la navbar */
     }
 
     nav li {
@@ -24,14 +32,13 @@
 
     nav li a {
         display: block;
-        color: white;
         text-align: center;
-        padding: 14px 16px;
+        padding: 14px 8px;
         text-decoration: none;
     }
 
     nav li a:hover {
-        background-color: #111;
+        background-color: #F5F5F5;
     }
 
     .dropdown {
@@ -43,7 +50,7 @@
         font-size: 16px;
         border: none;
         outline: none;
-        color: white;
+        color: #2C2C2C; 
         padding: 14px 16px;
         background-color: inherit;
         font-family: inherit;
@@ -53,7 +60,7 @@
     .dropdown-content {
         display: none;
         position: absolute;
-        background-color: #f9f9f9;
+        background-color: #e6e6e6;
         min-width: 160px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         z-index: 1;
@@ -70,7 +77,7 @@
     }
 
     .dropdown-content a:hover {
-        background-color: #ddd;
+        background-color: #F5F5F5;
     }
 
     .dropdown:hover .dropdown-content {
@@ -78,8 +85,18 @@
     }
 
     .dropdown:hover .dropbtn {
-        background-color: #3e8e41;
+        background-color: #F5F5F5;
     }
+
+    .nav-fade {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 100px; /* Hauteur du fondu */
+  background: linear-gradient(rgba(0, 0, 0, 0.717), rgba(254, 218, 174, 0));
+  z-index: 999; /* Juste en dessous de la navbar */
+  pointer-events: none; /* Permet de cliquer à travers */
+}
 </style>
 
 <nav>
@@ -90,8 +107,6 @@
             <div class="dropdown-content">
                 <a href="#">Présentation</a>
                 <a href="#">Informations</a>
-                <a href="#">Avis</a>
-                <a href="#">Histoire Du Domaine</a>
                 <a href="#">Localisation</a>
             </div>
         </li>
@@ -120,9 +135,9 @@
                     </div>
                 <% } %>
             </li>
-            <li><a href="/compte">Mon Compte</a></li>
+            <li><a href="/compte">Mon compte</a></li>
         <% } else { %>
-            <li><a href="/compte">S'Authentifier</a></li>
+            <li><a href="/compte">S'authentifier</a></li>
         <% } %>
     </ul>
     

@@ -3,75 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styledashboard.css">
     <title>Mon Compte</title>
 </head>
+    <style>
+        .container {
+            margin-top:100px;
+            margin-bottom: 50px;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
 <body>
     <%- include('../PARTIALS/navbar') %>
-    <% if (user) { %>
-        <div class="container">
-            <% if (success_msg) { %>
-                <div class="flash-message success"><%= success_msg %></div>
-            <% } %>
+    <section class="container connecter">
+        <% if (user) { %>
+            <div class="sub-container">
+                <br>
+                <h2>Bienvenue, <%= user.prenom %> !</h2>
+            </div>
+            <div class="sub-container">
+                <% if (success_msg) { %>
+                    <div class="flash-message success"><%= success_msg %></div>
+                <% } %>
+                
+                <% if (error_msg2) {%>
+                    <div class="flash-message error"><%= error_msg2%></div>
+                <% } %>  
+                                <br><br>
+                <a href="/showuser/<%= user._id  %>">Mon Profil</a>
+                <br>
+                <% if (user.role === "un simple utilisateur") {%>
+                    <br><br>
+                <a href="/depotdossier">Je dépose mon dossier</a>   
+               <br> <br><br>
+                <a href="/mes-fichiers/<%= user._id %>">Mon Espace</a>  
+                <% } %>
+                <% if(user.role === "locataire") {%>
+                    <br> <br>
+                    <a href="/dashboardlocataire">Mon Tableau de bord</a>
+                <% } %>
+                <% if(user.role === "admin") {%>
+                    <br> <br>
+                    <a href="/dashboardadmin">Mon Tableau de bord</a>
+                <% } %>
+                               <br> <br>
+                <form action="/logout" method="POST">
+                    <button type="submit">Déconnexion</button>
+                </form>
+            </div>
+        <% } else { %>
+            <div class="sub-container">
+                <h1>S'enregistrer</h1>
+                <form action="/register" method="POST">
+    
+                    <label for="email">Email :</label>
+                    <input type="text" name="email" id="email" required>
+    
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" name="nom" required>
+    
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" id="prenom" name="prenom" required>
+    
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" id="password" name="password" required>
+    
+                    <button type="submit">S'enregistrer</button>
+                </form>
+                <% if (success_msg) { %>
+                    <div class="flash-message success"><%= success_msg %></div>
+                <% } %>
             
-            <% if (error_msg2) {%>
-                <div class="flash-message error"><%= error_msg2%></div>
-            <% } %>  
-            <a href="/showuser/<%= user._id  %>">Mon Profil</a>
-            <% if (user.role === "un simple utilisateur") {%>
-            <a href="/depotdossier">Je dépose mon dossier</a>   
-            <a href="/mes-fichiers/<%= user._id %>">Mon Espace</a>  
-            <% } %>
-            <% if(user.role === "locataire") {%>
-                <a href="/dashboardlocataire">Mon Tableau de bord</a>
-            <% } %>
-            <% if(user.role === "admin") {%>
-                <a href="/dashboardadmin">Mon Tableau de bord</a>
-            <% } %>
-            <form action="/logout" method="POST">
-                <button type="submit">Déconnexion</button>
-            </form>
-        </div>
-    <% } else { %>
-        <div class="container">
-            <h1>S'enregistrer</h1>
-            <form action="/register" method="POST">
-
-                <label for="email">Email :</label>
-                <input type="text" name="email" id="email" required>
-
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required>
-
-                <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required>
-
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password" required>
-
-                <button type="submit">S'enregistrer</button>
-            </form>
-            <% if (success_msg) { %>
-                <div class="flash-message success"><%= success_msg %></div>
-            <% } %>
+                <% if (error_msg) { %>
+                    <div class="flash-message error"><%= error_msg %></div>
+                <% } %>  
+            </div>
+            <div class="sub-container">
+                <h1>Déjà inscrit ?</h1>
+                <form action="/login" method="POST">
+                    <label for="email">Email :</label>
+                    <input type="text" id="email" name="email" required>
         
-            <% if (error_msg) { %>
-                <div class="flash-message error"><%= error_msg %></div>
-            <% } %>  
-        </div>
-        <div class="container">
-            <h1>Login</h1>
-            <form action="/login" method="POST">
-                <label for="email">Email :</label>
-                <input type="text" id="email" name="email" required>
-    
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password" required>
-    
-                <button type="submit">Se connecter</button>
-            </form>
-        </div>
-    <% } %>
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" id="password" name="password" required>
+        
+                    <button type="submit">Se connecter</button>
+                </form>
+            </div>
+        <% } %>
+    </section>
     <%- include('../PARTIALS/footer') %>
     <script>
         document.addEventListener("DOMContentLoaded", function () {

@@ -3,42 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styledashboard.css">
     <title>Dashboard <%= user.role %></title>
 </head>
 <body>
     <%- include('../PARTIALS/navbar') %>
+    <br><br>
     <div class="container">
-
-        <h2>Propriétaire <%= user.nom %> <%= user.prenom %></h2>
-        <p>Bienvenue sur votre <strong>Tableau De Bord Administrateur .</strong></p>
-
+        
         <div class="sub-container">
-            <a href="/mes-fichiers/<%= user._id %>"><strong>Mes Fichiers</strong></a>  
+            <div class="sub-container">
+
+                <h2>Propriétaire <%= user.nom %> <%= user.prenom %></h2>
+                <p>Bienvenue sur votre <strong>Tableau De Bord Administrateur .</strong></p>
+                <br>
+                    <a href="/mes-fichiers/<%= user._id %>"><strong>Mes Fichiers</strong></a>  
+            </div>
         </div>
         
         <div class="sub-container">
-            <h2>Suivi des contrats de location</h2>
-                <% if(users.length > 0) { %>
-                        <% users.forEach(user => { %>
-                                    <li class="sub-container">
-                                        <h4><%= user.nom %> <%= user.prenom %> (<%= user.email %>)</h4>
-                                        <a href="/mes-fichiers/<%= user._id %>">accéder à son espace</a>
-                                        <form action="/admin/remove-locataire/<%= user._id %>" method="POST">
-                                            <input type="hidden" name="userId" value="<% usersWithFiles.forEach(userData => { userData.chambre })%>">
-                                            <input type="hidden" name="chambre" value="<%= user._id %>">
-                                            <button type="submit" class="btn btn-danger">retirer ce locataire</button>
-                                        </form>
-                                    </li>  
-                            <% }) %>
-                <% } else {%>
-                    <p>Aucun locataire actuellement.</p>
-                <% } %>
-        </div>
+            <div class="sub-container">
+                <h2>Suivi des contrats de location</h2>
+                    <% if(users.length > 0) { %>
+                            <% users.forEach(user => { %>
+                                        <li>
+                                            <h4><%= user.nom %> <%= user.prenom %> (<%= user.email %>)</h4>
+                                            <br>
+                                            <a href="/mes-fichiers/<%= user._id %>">accéder à son espace</a>
+                                            <form action="/admin/remove-locataire/<%= user._id %>" method="POST">
+                                                <input type="hidden" name="userId" value="<% usersWithFiles.forEach(userData => { userData.chambre })%>">
+                                                <input type="hidden" name="chambre" value="<%= user._id %>">
+                                                <br>
+                                                <button type="submit" class="btn btn-danger">retirer ce locataire</button>
+                                            </form>
+                                        </li>  
+                                <% }) %>
+                    <% } else {%>
+                        <p>Aucun locataire actuellement.</p>
+                    <% } %>
+            </div>
+            </div>
     
         <div class="sub-container">
             <div class="sub-container">
-                <h2>Ajouter une annonce :</h2>
+                <h2>Faire une annonce :</h2>
                 <form action="/annonces/<%= user._id %>" method="POST" >
         
                     <label for="titre">Titre de l'annonce</label><br>
@@ -61,7 +69,9 @@
                     <% casses.forEach(casse => { %>
                                 <li>
                                     <h4>Message reçu : <%= casse.userId.nom %> <%= casse.userId.prenom %> (<%= casse.userId.role %>)</h4>
+                                    <br>
                                     <h5><%= casse.description %></h5>
+                                    <br>
                                     <%= new Date(casse.dateCasse).toLocaleDateString("fr-FR") %> à 
                                     <%= new Date(casse.dateCasse).toLocaleString("fr-FR", { 
                                         timeZone: "Europe/Paris", 
@@ -105,7 +115,7 @@
                                             <li>
                                                 <strong><%= file.filename %></strong><br>
                                                 <strong>Type :</strong> <%= file.contentType %> <br>
-                                                <strong>Date d'upload :</strong> <%= new Date(file.uploadDate).toLocaleString() %> <br>
+                                                <strong>Date d'upload :</strong> <%= new Date(file.uploadDate).toLocaleString() %> <br><br>
                                                 <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
                                             </li>
                                             <% }) %>
@@ -138,9 +148,11 @@
         <div class="sub-container">
             <h5>Gérer les chambres</h5>
             <% chambres.forEach(chambre => { %>
-                <li class="sub-container">
+                <li class="sub-container chambres">
                     <h5><%= chambre.nom %></h5>
+                    <br>
                     <a href="/updatechambres/<%= chambre._id %>">Modifier cette chambre</a>
+                    <br><br>
                 </li>  
             <% }) %>
             
@@ -158,6 +170,15 @@
                 form.addEventListener("submit", function () {
                     sessionStorage.setItem("scrollPosition", window.scrollY);
                 });
+            });
+        });
+
+        document.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", function (event) {
+                const target = event.target;
+                if (target.tagName === "A") {
+                    sessionStorage.setItem("scrollPosition", window.scrollY);
+                }
             });
         });
     </script>

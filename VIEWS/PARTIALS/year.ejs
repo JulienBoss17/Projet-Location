@@ -1,39 +1,63 @@
-<ul id="year">
+<div class="nav-fade"></div>
+<div class="carousel-container">
+  <div class="carousel">
+    <button class="btn" id="prev">&#10096;</button>
+    <button class="btn" id="next">&#10097;</button>
+    <ul>
+      <li class="slide active"><img src="/images/devant.jpeg" alt="Maison devant"></li>
+      <li class="slide"><img src="/images/derrière 3.jpeg" alt="Maison derrière"></li>
+      <li class="slide"><img src="/images/cuisine.jpeg" alt="Cuisine"></li>
+      <li class="slide"><img src="/images/salon2.jpeg" alt="Salon"></li>
+    </ul>
+  </div>
+</div>
+
+<div id="year">
+  <h3>Chambres Disponibles</h3><br><br>
+  <ul class="chambres-list">
     <% chdispo.forEach(chambre => { %>
-        <a href="/show/<%= chambre._id %>" class="Disponible">
-            <li class="container">
-                <% if (chambre.nom == "Chambre 4") { %>
-                    <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
-                <% } else if (chambre.nom == "Chambre 10") { %>
-                    <img src="/images/chambre10.jpeg" alt="Chambre 10" width="300px" height="auto">
-                <% } else if (chambre.nom == "Chambre 14") { %>
-                    <img src="/images/chambre14.jpeg" alt="Chambre 14" width="300px" height="auto">
-                <% } else if (chambre.nom == "Chambre 15") { %>
-                    <img src="/images/chambre15.jpeg" alt="Chambre 15" width="300px" height="auto">
-                <% } %>
-                <div>
-                    <h2><%= chambre.nom %></h2>
-                </div>
-            </li>
+      <li class="room-card Disponible">
+        <a href="/show/<%= chambre._id %>">
+          <div class="room-content">
+            <img src="/images/<%= chambre.nom.replace(' ', '').toLowerCase() %>.jpeg" alt="<%= chambre.nom %>">
+            <h2><%= chambre.nom %></h2>
+            <p><%= chambre.position %></p>
+          </div>
         </a>
+      </li>      
     <% }) %>
+  </ul>
+
+  <h3>Chambres Indisponibles</h3><br><br>
+  <ul class="chambres-list">
     <% chindispo.forEach(chambre => { %>
-        <li class="container Indisponible">
-            <% if (chambre.nom == "Chambre 4") { %>
-                <img src="/images/chambre4.jpeg" alt="Chambre 4" width="300px" height="auto">
-            <% } else if (chambre.nom == "Chambre 10") { %>
-                <img src="/images/chambre10.jpeg" alt="Chambre 10" width="300px" height="auto">
-            <% } else if (chambre.nom == "Chambre 14") { %>
-                <img src="/images/chambre14.jpeg" alt="Chambre 14" width="300px" height="auto">
-            <% } else if (chambre.nom == "Chambre 15") { %>
-                <img src="/images/chambre15.jpeg" alt="Chambre 15" width="300px" height="auto">
-            <% } %>
-            <div>
-                <h2><%= chambre.nom %></h2>
-                    <% if (chambre.disponibilite === false) {%>
-                        <h3>Indisponible</h3>
-                    <% }%>
-            </div>
-        </li>
+      <li class="room-card Indisponible">
+        <div class="room-content">
+          <img src="/images/<%= chambre.nom.replace(' ', '').toLowerCase() %>.jpeg" alt="<%= chambre.nom %>">
+          <h2><%= chambre.nom %></h2>
+          <p><%= chambre.position %></p>
+        </div>
+      </li>
     <% }) %>
-</ul>
+  </ul>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll(".btn");
+const slides = document.querySelectorAll(".slide");
+
+buttons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const direction = e.target.id === "next" ? 1 : -1;
+    const currentSlide = document.querySelector(".slide.active");
+    let newIndex = [...slides].indexOf(currentSlide) + direction;
+
+    if (newIndex < 0) newIndex = slides.length - 1;
+    if (newIndex >= slides.length) newIndex = 0;
+
+    slides.forEach(slide => slide.classList.remove("active"));
+    slides[newIndex].classList.add("active");
+  });
+});
+
+</script>

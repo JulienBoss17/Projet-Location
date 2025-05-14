@@ -3,81 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styledashboard.css">
     <title>Mes Fichiers</title>
 </head>
 <body>
-    <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mes Fichiers</title>
-    </head>
-    <body>
+    <style>
+
+        .container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+
+        .admin {
+            margin-bottom: 200px;
+        }
+    </style>
         <%- include('../PARTIALS/navbar') %>
         <div class="container">
-            <br>
-            <p>
-                (<%= user1.email %>)
+            <div class="sub-container">
                 <br>
-                <strong><%= user1.nom %> <%= user1.prenom %></strong>
-            </p>
-            <% if(chambreUser !== null) { %>
-                <h3><%= chambreUser.nom %></h3>
+                <p class="annonce">
+                    <strong><%= user1.nom %> <%= user1.prenom %></strong>
+                    <br>
+                    (<%= user1.email %>)
+                </p>
+                <% if(chambreUser !== null) { %>
+                    <h3><%= chambreUser.nom %></h3>
+                    <% } %>
+                <% if(user1.role === "un simple utilisateur") { %>
+                    <% if(files.length > 0 && user1.role !== "locataire") {%>
+                        <p>Votre dossier n'est pas encore accepté.</p>
+                    <% } %>
+                    <% if(userFiles && userFiles.length === 0) { %>
+                        <p>Vous n'avez pas encore créé de dossier, ou bien votre précédent dossier a été refusé.</p>
+                    <% } %>
                 <% } %>
-            <% if(user1.role === "un simple utilisateur") { %>
-                <% if(files.length > 0 && user1.role !== "locataire") {%>
-                    <p>Votre dossier n'est pas encore accepté.</p>
-                <% } %>
-                <% if(userFiles && userFiles.length === 0) { %>
-                    <p>Vous n'avez pas encore créer de dossier.</p>
-                <% } %>
-            <% } %>
-            <% if(userFiles.length !== 0) {%>
-                <ul>
-                    <% files.forEach(file => { %>
-                        <br>
-                        <li>
-                            <strong>Nom :</strong> <%= file.originalname %> <br>
-                            <strong>Type :</strong> <%= file.contentType %> <br>
-                            <strong>Date d'upload :</strong> <%= new Date(file.uploadDate).toLocaleString() %> <br>
-                            <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
-                            <% if(user.role === "admin") { %>
-                                <form action="/admin/delete/<%= file.fileId %>" method="POST" style="display:inline;">
-                                    <button type="submit" class="delete-button">Supprimer</button>
-                                </form>
-                            <% } %>
-                        </li>
-                        <hr>
-                    <% }) %>
-                </ul>
-                <% } %>       
-        </div>
-        <% if(quittances && quittances.length > 0) { %>
-            <div class="container">
-                <ul>
-                    <h1>Mes Quittances</h1>
-                    <% quittances.forEach(quittance => { %>
-                        <li>
-                            <strong>Mois :</strong> <%= quittance.mois %>/<%= quittance.annee %><br>
-                            <strong>Nom :</strong> <%= quittance.originalname %><br>
-                            <strong>Date d'upload :</strong> <%= new Date(quittance.uploadDate).toLocaleDateString() %><br>
-                            <a href="/files/<%= quittance.fileId %>" target="_blank">Voir la quittance</a>
-                            <% if(user.role === "admin") { %>
-                                <form action="/admin/delete/<%= quittance.fileId %>" method="POST" style="display:inline;">
-                                    <button type="submit" class="delete-button">Supprimer</button>
-                                </form>
-                            <% } %>
-                        </li>
-                        <hr>
-                    <% }) %>
-                </ul>
+                <% if(userFiles.length !== 0) {%>
+                    <ul>
+                        <% files.forEach(file => { %>
+                            <br>
+                            <li>
+                                <strong>Nom :</strong> <%= file.originalname %> <br>
+                                <strong>Type :</strong> <%= file.contentType %> <br>
+                                <strong>Date d'upload :</strong> <%= new Date(file.uploadDate).toLocaleString() %> <br><br>
+                                <a href="/files/<%= file.fileId %>" target="_blank">Voir le fichier</a>
+                                <br><br>
+                                <% if(user.role === "admin") { %>
+                                    <form action="/admin/delete/<%= file.fileId %>" method="POST" style="display:inline;">
+                                        <button type="submit" class="delete-button">Supprimer</button>
+                                    </form>
+                                <% } %>
+                            </li>
+                            <hr>
+                        <% }) %>
+                    </ul>
+                    <% } %>       
             </div>
+            <% if(quittances && quittances.length > 0) { %>
+                <div class="sub-container">
+                    <ul>
+                        <h1>Mes Quittances</h1>
+                        <% quittances.forEach(quittance => { %>
+                            <li>
+                                <strong>Mois :</strong> <%= quittance.mois %>/<%= quittance.annee %><br>
+                                <strong>Nom :</strong> <%= quittance.originalname %><br>
+                                <strong>Date d'upload :</strong> <%= new Date(quittance.uploadDate).toLocaleDateString() %><br><br>
+                                <a href="/files/<%= quittance.fileId %>" target="_blank">Voir la quittance</a>
+                                <br><br>
+                                <% if(user.role === "admin") { %>
+                                    <form action="/admin/delete/<%= quittance.fileId %>" method="POST" style="display:inline;">
+                                        <button type="submit" class="delete-button">Supprimer</button>
+                                    </form>
+                                <% } %>
+                            </li>
+                            <hr>
+                        <% }) %>
+                    </ul>
+                </div>
+                </div>
             <% } %>
+        </div>
 
         <% if(user.role === "admin") { %>
-            <div class="sub-container">
+            <div class="sub-container container admin">
                 <h2>Ajouter un fichier :</h2>
                 <form action="/admin/upload/<%= userId %>" method="POST" enctype="multipart/form-data">
                     <label for="file">Sélectionner un fichier :</label><br>
@@ -88,7 +104,7 @@
                         <option value="">-- Choisir --</option>
                         <option value="fichier">Fichier classique</option>
                         <option value="quittance">Quittance de loyer</option>
-                    </select><br><br>
+                    </select><br>
         
                     <div id="quittanceFields" style="display: none;">
                         <label for="mois">Mois :</label>
@@ -102,13 +118,13 @@
                         <input type="number" name="annee" id="annee" value="<%= new Date().getFullYear() %>" min="2000" max="2100"><br><br>
                     </div>
         
-                    <input type="submit" value="Uploader le fichier">
+                    <input type="submit" value="Envoyer le fichier">
                 </form>
+                <br>
                 <a href="/dashboardadmin">Retour au Tableau de bord</a>
             </div>
         <% } %>
         
-        <%- include('../PARTIALS/footer') %>
         <script>
             function toggleQuittanceFields() {
                 const type = document.getElementById('type').value;
@@ -128,8 +144,6 @@
             });
         });
         </script>
-    </body>
-    </html>
-    
+            <%- include('../PARTIALS/footer') %>
 </body>
 </html>
