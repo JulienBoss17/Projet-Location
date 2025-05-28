@@ -1,7 +1,5 @@
-/* Général */
-
 html {
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none; 
 }
 body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -22,12 +20,10 @@ body {
     padding: 30px;
   }
   
-  /* Titres */
   h2, h4, h5 {
     color: #0d4545;
   }
   
-  /* Cartes / sections */
   .sub-container {
     background-color: #ffffff;
     border-radius: 10px;
@@ -51,7 +47,7 @@ body {
     font-family: 'Arial', sans-serif;
     border: 1px solid #ccc;
     border-radius: 8px;
-    resize: none; /* autorise seulement le redimensionnement vertical */
+    resize: none; 
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
@@ -63,8 +59,6 @@ body {
     ;
   }
   
-  
-  /* Formulaires */
   input[type="text"], 
   textarea,
   select {
@@ -198,11 +192,7 @@ body {
 .form button:hover {
   background-color: #0b3a3a;
 }
-  
 
-/* ========== RESPONSIVE ENHANCEMENTS ========== */
-
-/* Petits écrans (mobiles) */
 @media (max-width: 576px) {
   body {
     padding-top: 15px;
@@ -251,7 +241,6 @@ body {
   }
 }
 
-/* Tablettes */
 @media (min-width: 577px) and (max-width: 991px) {
   .container {
     padding: 25px;
@@ -273,7 +262,6 @@ body {
   }
 }
 
-/* Grands écrans */
 @media (min-width: 992px) {
   .form {
     flex-direction: row;

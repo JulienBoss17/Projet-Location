@@ -106,7 +106,6 @@ exports.mesfichiers = async (req, res) => {
             }
         });
 
-        // 🗂️ Tri des quittances du plus récent au plus ancien
         allQuittances.sort((a, b) => {
             if (a.annee !== b.annee) return b.annee - a.annee;
             return b.mois - a.mois;
@@ -115,7 +114,7 @@ exports.mesfichiers = async (req, res) => {
         res.render('pages/candidature', { 
             userFiles,
             files: allFiles, 
-            quittances: allQuittances, // 🔥 On passe les quittances à la vue
+            quittances: allQuittances, 
             message: null, 
             userId,
             user1,
@@ -202,7 +201,7 @@ exports.adminUploadFile = async (req, res) => {
 
         try {
             const userId = req.params.userId;
-            const { type, mois, annee } = req.body; // Ajout du type (quittance ou non)
+            const { type, mois, annee } = req.body; 
 
             let userFiles = await UserFile.findOne({ userId });
 
@@ -277,7 +276,6 @@ exports.adminDeleteFile = async (req, res) => {
 
         const objectId = new mongoose.Types.ObjectId(fileId);
 
-        // 🔍 Trouver si c'est une quittance ou un fichier normal
         const userFile = await UserFile.findOne({
             $or: [
                 { "files.fileId": objectId },
@@ -292,10 +290,8 @@ exports.adminDeleteFile = async (req, res) => {
 
         const userId = userFile.userId;
 
-        // 🔥 Supprimer le fichier de GridFS
         await gridfsBucket.delete(objectId);
 
-        // 🗑 Supprimer dans le bon tableau
         const pullQuery = {
             $pull: {
                 files: { fileId: objectId },

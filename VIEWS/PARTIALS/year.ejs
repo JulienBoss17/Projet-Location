@@ -13,6 +13,7 @@
 </div>
 
 <div id="year">
+  <% if(chdispo.length > 0) {%>
   <h3>Chambres Disponibles</h3><br><br>
   <ul class="chambres-list">
     <% chdispo.forEach(chambre => { %>
@@ -27,7 +28,8 @@
       </li>      
     <% }) %>
   </ul>
-
+  <% } %>
+  <% if(chindispo.length > 0) {%>
   <h3>Chambres Indisponibles</h3><br><br>
   <ul class="chambres-list">
     <% chindispo.forEach(chambre => { %>
@@ -40,6 +42,7 @@
       </li>
     <% }) %>
   </ul>
+  <% } %>
 </div>
 
 <script>

@@ -21,7 +21,7 @@ exports.dashAdmin = async (req, res) => {
 
     const usersWithFiles = await Promise.all(userFiles.map(async (doc) => {
         if (doc.files && doc.files.length > 0) {
-            const chambre = await Chambre.findById(doc.chambre);  // Récupère la chambre associée
+            const chambre = await Chambre.findById(doc.chambre);  
 
             return {
                 user: doc.userId,
@@ -34,7 +34,7 @@ exports.dashAdmin = async (req, res) => {
                         uploadDate: file.uploadDate,
                     };
                 }),
-                chambre: chambre ? chambre.nom : "Chambre non trouvée", // Affiche le nom de la chambre si trouvée
+                chambre: chambre ? chambre.nom : "Chambre non trouvée", 
             };
         }
     })).then(result => result.filter(user => user !== undefined));
@@ -197,16 +197,14 @@ exports.deleteFiles = async (req, res) => {
 
 exports.assignChambreToLocataire = async (req, res) => {
     const { userId } = req.params;
-    const { chambre } = req.body; // Récupérer l’ID de la chambre depuis le formulaire
+    const { chambre } = req.body; 
 
     try {
-        // Vérifier si la chambre existe
         const chambreExiste = await Chambre.findById(chambre);
         if (!chambreExiste) {
             return res.redirect("/dashboardadmin");
         }
 
-        // Mettre à jour l'utilisateur : changer son rôle et assigner la chambre
         await User.findByIdAndUpdate(userId, { 
             role: "locataire",
             chambre: chambre
@@ -224,7 +222,6 @@ exports.removeLocataire = async (req, res) => {
     const { userId } = req.params;
 
     try {
-        // Récupération des fichiers liés à l'utilisateur
         const userFiles = await UserFile.findOne({ userId });
 
         if (userFiles) {
@@ -252,7 +249,6 @@ exports.removeLocataire = async (req, res) => {
             await UserFile.deleteOne({ userId });
         }
 
-        // Mise à jour de l'utilisateur
         await User.findByIdAndUpdate(userId, {
             role: "un simple utilisateur",
             chambre: null

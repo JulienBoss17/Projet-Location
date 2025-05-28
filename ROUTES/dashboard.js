@@ -7,11 +7,9 @@ const verifySession2 = require('../MIDDLEWARES/verifysession2.js');
 const dashboardController = require("../CONTROLLERS/dashboard.js");
 const depotDossierController = require("../CONTROLLERS/depotDossier.js");
 
-// dashboard admin
 
 router.get("/dashboardadmin", verifySession("admin"), dashboardController.dashAdmin)
 
-// dashboard locataire
 router.get("/dashboardlocataire", verifySession("locataire"), dashboardController.dashLocataire)
 
 router.post('/casses/:userId', verifySession2() ,dashboardController.casses);

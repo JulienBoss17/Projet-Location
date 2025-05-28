@@ -3,11 +3,10 @@ const router = express.Router();
 const verifySession = require('../MIDDLEWARES/verifysession.js');
 const verifySession2 = require('../MIDDLEWARES/verifysession2.js');
 const verifySession3 = require('../MIDDLEWARES/verifySession3.js');
-const { upload, gfs } = require('../DATABASE/upload'); // Importez gfs et upload depuis upload.js
+const { upload, gfs } = require('../DATABASE/upload'); 
 
 const depotDossierController = require("../CONTROLLERS/depotDossier.js");
 
-// get dépot de dossier
 router.get("/depotdossier", verifySession(), depotDossierController.depotDossier);
 
 router.post('/upload', verifySession3(), depotDossierController.uploadFile);

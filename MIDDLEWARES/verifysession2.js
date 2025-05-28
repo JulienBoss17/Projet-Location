@@ -7,19 +7,17 @@ function verifySession2() {
         }
 
         try {
-            const user = await User.findById(req.params.userId);  // Locataire
-            const user2 = await User.findById(req.session.userId); // Utilisateur connecté
+            const user = await User.findById(req.params.userId);  
+            const user2 = await User.findById(req.session.userId); 
 
             if (!user2) {
                 return res.redirect("/compte");
             }
 
-            // ✅ Laisse passer l'admin
             if (user2.role === "admin") {
                 return next();
             }
 
-            // ✅ Vérifie si l'utilisateur accède bien à ses propres fichiers
             if (!user || user._id.toString() !== user2._id.toString()) {
                 return res.redirect("/compte");
             }

@@ -1,14 +1,14 @@
 <style>
 
 nav {
-    z-index: 1000; /* Vous pouvez augmenter si nécessaire */
+    z-index: 1000; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: #e6e6e6;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.288); /* Ombre douce pour marquage */
-    border-bottom: 1px solid #E8D8C3; /* Ligne fine sous la navbar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.288); 
+    border-bottom: 1px solid #E8D8C3; 
 }
 
     nav ul {
@@ -18,8 +18,8 @@ nav {
         padding: 0;
         overflow: hidden;
         background-color: #e6e6e6;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.288); /* Ombre douce pour marquage */
-        border-bottom: 1px solid #E8D8C3; /* Ligne fine sous la navbar */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.288); 
+        border-bottom: 1px solid #E8D8C3; 
     }
 
     nav li {
@@ -92,10 +92,10 @@ nav {
   position: fixed;
   left: 0;
   width: 100%;
-  height: 100px; /* Hauteur du fondu */
+  height: 100px; 
   background: linear-gradient(rgba(0, 0, 0, 0.717), rgba(254, 218, 174, 0));
-  z-index: 999; /* Juste en dessous de la navbar */
-  pointer-events: none; /* Permet de cliquer à travers */
+  z-index: 999; 
+  pointer-events: none; 
 }
 </style>
 
@@ -103,17 +103,16 @@ nav {
     <ul>
         <li><a href="/">Accueil</a></li>
         <li class="dropdown">
-            <a href="#" class="dropbtn">La Maison</a>
+            <a href="" class="dropbtn">La Maison</a>
             <div class="dropdown-content">
-                <a href="#">Présentation</a>
-                <a href="#">Informations</a>
-                <a href="#">Localisation</a>
+                <a href="/presentation">Présentation</a>
+                <a href="/localisation">Localisation</a>
             </div>
         </li>
         <li class="dropdown">
-            <a href="#" class="dropbtn">Contact</a>
+            <a href="/contact" class="dropbtn">Contact</a>
             <div class="dropdown-content">
-                <a href="#">Nous Contacter</a>
+                <a href="/contact">Nous Contacter</a>
                 <% if(user) { %>
                     <a href="/depotdossier">Je dépose mon dossier</a>
                 <% } else { %>

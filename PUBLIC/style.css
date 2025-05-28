@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap");
 
-/* === Reset & Global === */
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +11,7 @@ html, body {
   background-color: #0d4545;
   padding-top: 23px;
   height: 100%;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none; 
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
@@ -29,7 +28,6 @@ h2, h3 {
   margin-bottom: 0.5rem;
 }
 
-/* === Containers === */
 .container,
 .carousel-container {
   display: flex;
@@ -38,7 +36,6 @@ h2, h3 {
   align-items: center;
 }
 
-/* === Carousel === */
 .carousel {
   height: 65vh;
   width: 100vw;
@@ -98,7 +95,6 @@ h2, h3 {
   object-fit: cover;
 }
 
-/* === Year Section === */
 #year {
   background-color: #0d4545;
   padding: 100px 20px;
@@ -127,7 +123,6 @@ h2, h3 {
   width: 100%;
 }
 
-/* === Room Card === */
 .room-card {
   width: 300px;
   min-height: 340px;
@@ -173,14 +168,12 @@ h2, h3 {
   color: #333;
 }
 
-/* === Indisponible State === */
 .Indisponible:hover,
 .Indisponible:hover h2 {
   filter: grayscale(100%);
   cursor: not-allowed;
 }
 
-/* === Services List === */
 .services {
   display: flex;
   gap: 8px;
@@ -196,8 +189,6 @@ h2, h3 {
   padding: 4px 8px;
   border-radius: 8px;
 }
-
-/* === Dossier (version améliorée) === */
 
 .div-dossier {
     background-color: #e6e6e6;
@@ -248,7 +239,6 @@ h3 {
     color: #f3f1f1;
 }
 
-/* === Sections Générales === */
 section {
   padding: 80px 20px;
   width: 100%;
@@ -277,7 +267,6 @@ section h3::after {
   border-radius: 2px;
 }
 
-/* === Card Style Général === */
 .section-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -286,7 +275,6 @@ section h3::after {
   margin: 0 auto;
 }
 
-/* === Card Individuale === */
 .section-card {
   background-color: #f0f0f0;
   color: #1e1e1e;
@@ -319,7 +307,6 @@ section h3::after {
   line-height: 1.4;
 }
 
-/* === Liste dans une carte === */
 .section-card ul {
   padding: 0;
   margin-top: 10px;
@@ -340,7 +327,6 @@ section h3::after {
   align-items: center;
 }
 
-/* === Contact carte spéciale === */
 .section-contact {
   max-width: 100%;
   margin: 0 auto;

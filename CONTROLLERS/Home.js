@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const session = require('express-session');
 const e = require("express");
 const validator = require("validator");
+const { getGridFsBucket } = require('../DATABASE/upload');
+const mongoose = require('mongoose');
 
 const UserFile = require('../MODELS/Userfiles.js');
 
@@ -201,4 +203,16 @@ exports.showChambres = async (req, res) => {
     catch(err) {
         res.status(500).json({message: err.message})
     }
+}
+
+exports.presentation = async (req, res) => {
+    res.render("PAGES/presentation");
+};
+
+exports.localisation = async (req, res) => {
+    res.render("PAGES/localisation");
+}
+
+exports.contact = async (req, res) => {
+    res.render("PAGES/contact");
 }

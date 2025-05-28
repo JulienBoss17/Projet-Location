@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styledashboard.css">
+    <title></title>
+</head>
+<body>
+    <style>
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
+    <%- include('../PARTIALS/navbar') %>
+    <div class="container">
+        <div class="sub-container">
+            <div class="sub-container">
+                <h2>Bienvenue sur NB LOC 10 </h2>
+                <h3>Votre future colocation étudiante commence ici.</h3>
+                <br>
+                <p>Vous êtes étudiant(e) à la recherche d’un logement convivial, bien situé et adapté à votre
+                rythme de vie ?</p>
+                <br>
+                <p>
+                    Nous vous proposons une coloc <strong>moderne, équipée et pensée pour les étudiants</strong>, dans une
+                    ambiance sereine et chaleureuse.
+                    <br><br>
+                    📍 Emplacements proches des lycées professionnels, commerces et de la gare de Surgères
+                    <br>
+                    🛏️ Chambres confortables et espaces communs fonctionnels
+                    <br>
+                    👫 Ambiance conviviale, respectueuse et propice à la réussite
+                    <br><br>
+                    Venez découvrir votre nouveau chez-vous !
+                </p>
+                <br>
+                <p><strong>Bienvenue à la coloc !</strong></p>
+            </div>
+            <div class="sub-container">
+                <h2>Informations</h2>
+                <h3>🏡 Colocation meublée – 4 chambres – Terrasse, jardin, parking et sous-sol</h3>
+                <strong>Spacieuse et confortable, cette maison en colocation est idéale pour ceux qui recherchent un cadre de vie agréable, fonctionnel et convivial. Située dans un quartier calme, elle offre de nombreux atouts :</strong>
+                <br>
+                    🔹 Composition de la maison :
+                    <br>
+                    🔹	🛏 4 chambres privatives, meublées, calmes et lumineuses
+                    <br>
+                    🔹	🚿 2 salles d’eau avec double vasque, modernes
+                    <br>
+                    🔹	🚽 2 WC séparés
+                    <br>
+                    🔹	🍽 Cuisine indépendante entièrement équipée, avec un accès direct à la terrasse pour profiter des repas en extérieur
+                    <br>
+                    🔹	🛋 Salon/salle à manger spacieux, idéal pour partager des moments entre colocataires
+                    <br>
+                    🔹	🌿 Terrasse et jardin privatif, parfaits pour se détendre ou organiser des repas
+                    <br>
+                    🔹	🚗 Une place de parking privative pour voiture
+                    <br>
+                    🔹	🛵 Sous-sol sécurisé, pratique pour garer vélos, scooters ou motos
+                    <br><br><br>
+                    <p>📞 Pour plus d'infos ou pour organiser une visite    <a href="/contact">Cliquez ici</a></p>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <%- include('../PARTIALS/footer') %>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    if (sessionStorage.getItem("scrollPosition")) {
+        window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
+        sessionStorage.removeItem("scrollPosition");
+    }
+
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", function () {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
+    });
+});
+</script>
+</body>
+</html>

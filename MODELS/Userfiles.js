@@ -6,7 +6,7 @@ const QuittanceSchema = new mongoose.Schema({
     originalname: String,
     contentType: String,
     uploadDate: { type: Date, default: Date.now },
-    mois: { type: Number, required: true }, // 1-12
+    mois: { type: Number, required: true }, 
     annee: { type: Number, required: true }
 });
 
@@ -22,7 +22,7 @@ const UserFileSchema = new mongoose.Schema({
         }
     ],
     chambre: { type: mongoose.Schema.Types.ObjectId, ref: 'chambres', default: null },
-    quittances: [QuittanceSchema] // 🔥 Ajout ici
+    quittances: [QuittanceSchema] 
 });
 
 module.exports = mongoose.model('UserFile', UserFileSchema);

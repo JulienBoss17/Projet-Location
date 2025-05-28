@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styledashboard.css">
-    <title><%= user.nom %></title>
+    <title></title>
 </head>
 <body>
     <style>
@@ -19,24 +19,32 @@
             background-color: #f1f1f1;
             text-align: center;
         }
+        input[type="submit"],
+        .container a,
+        button {
+            background-color: white;
+            color: #0d4545;
+            border: none;
+            padding: 0;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            text-align: center;
+        }
+        input[type="submit"]:hover,
+        .container a:hover,
+        button:hover {
+            background-color: white;
+            color: #0d454594;
+        }
     </style>
     <%- include('../PARTIALS/navbar') %>
     <div class="container">
         <div class="sub-container">
-            <p><strong><%= user.nom %> <%= user.prenom %></strong></p>
-            <p><strong>Email : </strong><%= user.email %></p>
-            <p><strong>Tu es : </strong><%= user.role %></p>
-            <p><strong>Status : </strong><%= user.status %></p>
-            <br><br>
-                        <% if (success_msg2) { %>
-                <div class="flash-message success "><%= success_msg2 %></div>
-            <% } %>
-            <br><br>
-            <div>
-                <a href="/edituser/<%= user._id %>">Modifier</a>
-                <a href="/deleteuser/<%= user._id %>">Supprimer mon compte</a>
-                <a href="/">Retour à l'Accueil</a>
-            </div>
+            <h2>Une question ou un besoin spécifique ?</h2>
+            <h3>📧 Écrivez-nous à<a href="mailto:NBLOC10@gmail.com?subject=Demande%20d'informations&body=Bonjour,"><strong>NBLOC10@gmail.com</strong></a></h3>
+            <br>
+            <p>📍 10 rue Julia et Maurice Marcou, 17700 Surgères</p>
         </div>
     </div>
     <%- include('../PARTIALS/footer') %>

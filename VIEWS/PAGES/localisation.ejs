@@ -4,13 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styledashboard.css">
-    <title><%= user.nom %></title>
+    <title></title>
 </head>
 <body>
     <style>
         .container {
             margin-top:100px;
         }
+        iframe {
+            width: 100%;
+            max-width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+        }
+
+        iframe:hover {
+            transform: scale(1.01);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        iframe.glow {
+        box-shadow: 0 0 20px #0d4545;
+        }
+
+
         footer {
             position: fixed;
             bottom: 0;
@@ -23,20 +43,14 @@
     <%- include('../PARTIALS/navbar') %>
     <div class="container">
         <div class="sub-container">
-            <p><strong><%= user.nom %> <%= user.prenom %></strong></p>
-            <p><strong>Email : </strong><%= user.email %></p>
-            <p><strong>Tu es : </strong><%= user.role %></p>
-            <p><strong>Status : </strong><%= user.status %></p>
-            <br><br>
-                        <% if (success_msg2) { %>
-                <div class="flash-message success "><%= success_msg2 %></div>
-            <% } %>
-            <br><br>
-            <div>
-                <a href="/edituser/<%= user._id %>">Modifier</a>
-                <a href="/deleteuser/<%= user._id %>">Supprimer mon compte</a>
-                <a href="/">Retour à l'Accueil</a>
-            </div>
+            <h1>Nous trouver</h1>
+            <p>Voici notre emplacement au 10 rue Julia et Maurice Marcou</p>
+            <iframe
+                title="Google Maps Location"
+                class="glow"
+                src="https://www.google.com/maps?q=10+rue+Julia+et+Maurice+Marcou&output=embed" 
+                allowfullscreen>
+            </iframe>
         </div>
     </div>
     <%- include('../PARTIALS/footer') %>
