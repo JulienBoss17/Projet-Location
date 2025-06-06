@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const verifySession = require('../MIDDLEWARES/verifysession.js');
-const verifySession3 = require('../MIDDLEWARES/verifySession3.js');
+const verifySession3 = require('../MIDDLEWARES/verifysession3.js');
 const verifySession2 = require('../MIDDLEWARES/verifysession2.js');
 
 const dashboardController = require("../CONTROLLERS/dashboard.js");

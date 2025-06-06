@@ -30,7 +30,7 @@ exports.showUsers =  async (req, res) => {
     const userId = req.params.id
     try {
         const user = await User.findById(userId)
-        res.render("pages/showUser", { user });
+        res.render("PAGES/showUser", { user });
     }
     catch(err) {
         res.status(500).json({message: err.message})
@@ -129,7 +129,7 @@ exports.logoutUsers = async (req, res) => {
 };
 
 exports.deleteUsersPage = async (req, res) => {
-        res.render("pages/deleteUser");
+        res.render("PAGES/deleteUser");
     }
 exports.deleteUsers = async (req, res) => {
     const userId = req.params.id;
@@ -175,7 +175,7 @@ exports.updateUsersPage = async (req, res) => {
     const userId = req.params.id
     try {
         const user = await User.findById(userId)
-        res.render("pages/updateUser", { user });
+        res.render("PAGES/updateUser", { user });
     }
     catch(err) {
         res.status(500).json({message: err.message})
@@ -198,7 +198,7 @@ exports.showChambres = async (req, res) => {
     const chambreId = req.params.id
     try {
         const chambre = await Chambre.findById(chambreId)
-        res.render("pages/showChambre", { chambre });
+        res.render("PAGES/showChambre", { chambre });
     }
     catch(err) {
         res.status(500).json({message: err.message})

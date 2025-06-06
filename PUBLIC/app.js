@@ -15,7 +15,7 @@ const MongoStore = require("connect-mongo");
 
 // app.set
 app.set("view engine", "ejs");
-app.set("views", "./views");
+app.set("views", "./VIEWS");
 app.use(session({
     secret: process.env.SECRETSESSION,
     resave: false,
@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 
 // app.use
 app.use(cookieParser());
-app.use(express.static('public'));
+app.use(express.static('PUBLIC'));
 app.use(function (req, res, next) {
     res.locals.user = req.session.user;
     next();
@@ -50,7 +50,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(express.static("styles")); 
+app.use(express.static("style")); 
+app.use(express.static("styledashboard")); 
 app.use(cors());
 
 // routes
@@ -63,7 +64,7 @@ app.use(homeRouter);
 app.use(depotDossierRouter);
 
 // variables
-const port= process.env.PORT || 3020
+const port= process.env.PORT || 30224
 
 app.listen(port,() => {
     console.log("listening http://localhost:"+ port)

@@ -111,7 +111,7 @@ exports.mesfichiers = async (req, res) => {
             return b.mois - a.mois;
         });
 
-        res.render('pages/candidature', { 
+        res.render('PAGES/candidature', { 
             userFiles,
             files: allFiles, 
             quittances: allQuittances, 

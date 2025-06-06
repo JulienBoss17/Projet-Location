@@ -44,7 +44,7 @@ exports.dashAdmin = async (req, res) => {
     const users = await User.find({ role: "locataire" });
 
     const casses = await Casse.find().populate("userId", "nom role prenom");
-    res.render("pages/dashboardAdmin", {casses, usersWithFiles, chambres, users});
+    res.render("PAGES/dashboardAdmin", {casses, usersWithFiles, chambres, users});
 };
 
 
@@ -52,7 +52,7 @@ exports.updateChambresPage = async (req, res) => {
     const chambreId = req.params.id
     try {
         const chambre = await Chambre.findById(chambreId)
-        res.render("pages/updateChambre", { chambre });
+        res.render("PAGES/updateChambre", { chambre });
     }
     catch(err) {
         res.status(500).json({message: err.message})
@@ -76,7 +76,7 @@ exports.dashLocataire = async (req, res) => {
     try {
         const annonces = await Annonce.find().populate("userId", "nom role prenom");
 
-        res.render("pages/dashboardLocataire", { annonces });
+        res.render("PAGES/dashboardLocataire", { annonces });
     } catch (err) {
         console.error("Erreur lors du chargement des annonces:", err.message);
         res.status(500).json({ message: "Erreur serveur" });

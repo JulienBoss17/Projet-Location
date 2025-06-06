@@ -3,7 +3,7 @@ const Chambres = require("../MODELS/Chambres.js");
 const router = express.Router();
 const verifySession = require('../MIDDLEWARES/verifysession.js');
 const verifySession2 = require('../MIDDLEWARES/verifysession2.js');     
-const verifySession3 = require('../MIDDLEWARES/verifySession3.js');
+const verifySession3 = require("../MIDDLEWARES/verifysession3.js");
 const homeController = require("../CONTROLLERS/Home.js");
 
 router.get("/", homeController.home);
